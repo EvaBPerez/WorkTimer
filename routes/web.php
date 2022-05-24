@@ -13,10 +13,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/','welcome');
+Route::get('/my_proyects','welcome');
 
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+use App\Http\Controllers\userController;
+//############## Controller user ##################
+Route::post('signup', [UserController::class, 'create']);

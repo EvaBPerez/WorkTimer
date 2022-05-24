@@ -13,14 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        //
-        Schema::create('user', function (Blueprint $table) {
+        Schema::create('history', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();;
-            $table->string('password');
-            $table->enum('type', ['1', '2']);
-            $table->text('photo')->nullable();
+            $table->date('date');
+            $table->time('hour');
+            $table->foreignId('user_id')->constrained('user');
+            $table->foreignId('proyect_id')->constrained('proyect');
+            $table->foreignId('homework_id')->constrained('homework');
             $table->timestamps();
         });
     }
@@ -32,7 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        //
-        Schema::dropIfExists('user');
+        Schema::dropIfExists('history');
     }
 };

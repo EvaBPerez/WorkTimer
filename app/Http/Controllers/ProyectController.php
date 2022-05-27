@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Models\Proyect;
 
 class ProyectController extends Controller
 {
@@ -14,6 +16,8 @@ class ProyectController extends Controller
     public function index()
     {
         //
+        $proyect = Proyect::all()->toArray();
+        return response()->json($proyect);
     }
 
     /**
@@ -21,9 +25,22 @@ class ProyectController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         //
+        $request->validate([
+            'name'=>'required',
+            'color'=>'',
+            'user_id'=>'required'
+        ]);
+
+        $proyect = new Proyect();
+        $proyect->name = $request->get('name');
+        $proyect->color = $request->get('color');
+        $proyect->user_id = $request->get('user_id');
+        $proyect -> save();
+
+        return response()->json($proyect);
     }
 
     /**
@@ -80,5 +97,7 @@ class ProyectController extends Controller
     public function destroy($id)
     {
         //
+        $proyect = Proyect::findOrFail($id);
+        $proyect->delete();
     }
 }

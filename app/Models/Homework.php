@@ -11,7 +11,7 @@ class Homework extends Model
     use HasFactory;
     use Notifiable;
     protected $fillable = [
-        'name', 'user_id', 'proyect_id'
+        'name', 'color', 'user_id', 'proyect_id'
     ];
     protected $table = 'homework';
 }

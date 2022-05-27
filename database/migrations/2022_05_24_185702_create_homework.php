@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('homework', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('color');
             $table->foreignId('user_id')->constrained('user');
             $table->foreignId('proyect_id')->constrained('proyect');
             $table->timestamps();

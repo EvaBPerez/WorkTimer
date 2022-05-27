@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Models\Homework;
 
 class HomeworkController extends Controller
 {
@@ -11,9 +13,11 @@ class HomeworkController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
         //
+        $homeworks = Homework::where('proyect_id', '=', $id)->get()->toArray();
+        return response()->json($homeworks);
     }
 
     /**
@@ -21,9 +25,22 @@ class HomeworkController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         //
+        $request->validate([
+            'name'=>'required',
+            'color'=>'',
+            'user_id'=>'required'
+        ]);
+
+        $homework = new Homework();
+        $homework->name = $request->get('name');
+        $homework->color = $request->get('color');
+        $homework->user_id = $request->get('user_id');
+        $homework -> save();
+
+        return response()->json($homework);
     }
 
     /**
@@ -80,5 +97,7 @@ class HomeworkController extends Controller
     public function destroy($id)
     {
         //
+        $homework = Homework::findOrFail($id);
+        $homework->delete();
     }
 }

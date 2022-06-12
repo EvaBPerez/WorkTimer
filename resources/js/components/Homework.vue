@@ -20,10 +20,10 @@
             </div>
             
             <br><br>
-            <a
+            <router-link to="/my_proyects"
                 class="button_card">
-                Ver más
-            </a>
+                <span style="text-decoration: none; color: black;">Ver más</span>
+            </router-link>
         </div>
     </div>
 </template>

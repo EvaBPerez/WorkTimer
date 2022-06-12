@@ -5,16 +5,19 @@
         <div class="card-body">
             <div class="row_new">
                 <div class="col-10">
-                    <h5 class="card-title">{{name}}</h5>
+                    <h5 class="card-title" style="font-family: 'Lemonada', cursive;">{{name}}</h5>
                 </div>
                 <div class="col-2 three_dots">
-                    <i class="bi bi-three-dots-vertical"
-                    id="navbarDropdownMenuLink" role="button" 
-                    data-bs-toggle="dropdown" aria-expanded="false"></i>
-                     <ul class="prueba dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    
+
+                    <a href="#" class="d-block link-dark text-decoration-none" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-three-dots-vertical"></i>
+                    </a>
+
+                    <ul class="dropdown-menu dropdown-menu-end" style="font-family: 'Indie Flower', cursive; font-size: 1.2rem; text-align: center;">
+                        <li><a class="dropdown-item" href="#">Editar</a></li>
+                        <li><hr class="dropdown-divider" style="margin-left: 1.5rem; margin-right: 1.5rem;"></li>
+                        <li><a class="dropdown-item" href="#">Eliminar</a></li>
                     </ul>
 
                 </div>
@@ -23,7 +26,7 @@
             <br><br>
             <router-link :to="{name: 'homeworks', params: {id: this.proyect.id}}"
                 class="button_card">
-                Ver más
+                <span style="text-decoration: none; color: black;">Ver más</span>
             </router-link>
         </div>
     </div>
@@ -64,6 +67,4 @@ export default {
         text-align: right;
         margin-top: 2%;
     }
-    
-
 </style>

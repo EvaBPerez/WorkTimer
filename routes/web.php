@@ -18,16 +18,24 @@ Route::view('/my_proyects','welcome');
 Route::view('/homeworks/{id}','welcome');
 Route::view('/footer','welcome');
 Route::view('/tutorial','welcome');
+Route::view('/login','welcome');
+Route::view('/singup','welcome');
+Route::view('/setting','welcome');
 
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProyectController;
 use App\Http\Controllers\HomeworkController;
 //############## Controller user ##################
 Route::post('/signup', [UserController::class, 'create']);
+Route::get('/token', [UserController::class, 'show']);
+Route::post('/login', [UserController::class, 'login']);
+Route::post('/logout', [UserController::class, 'logout']);
+Route::post('/update', [UserController::class, 'update']);
+Route::get('/user_info', [UserController::class, 'user_info']);
 
 
 //############## Controller proyect ##################
-Route::get('/all_proyects', [ProyectController::class, 'index']);
+Route::get('/all_proyects/{id}', [ProyectController::class, 'index']);
 Route::post('/add_proyect', [ProyectController::class, 'create']);
 
 

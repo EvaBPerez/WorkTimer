@@ -13,10 +13,10 @@ class ProyectController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
         //
-        $proyect = Proyect::all()->toArray();
+        $proyect = Proyect::where('user_id', '=', $id)->get()->toArray();
         return response()->json($proyect);
     }
 
@@ -30,7 +30,7 @@ class ProyectController extends Controller
         //
         $request->validate([
             'name'=>'required',
-            'color'=>'',
+            'color'=>'required',
             'user_id'=>'required'
         ]);
 

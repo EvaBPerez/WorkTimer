@@ -15,7 +15,7 @@ export default {
         width: 100%;
         position: absolute;
         bottom: 0;
-        background: #AC9CD7;
+        background: #094154;
         border-radius: 10px 10px 0px 0px;
     }
 </style>

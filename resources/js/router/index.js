@@ -19,6 +19,28 @@ const router = [
     },
 
     {
+        path: '/login',
+        component: require('../components/Login.vue').default
+    },
+
+    {
+        path: '/singup',
+        component: require('../components/Singup.vue').default
+    },
+
+    {
+        path: '/setting',
+        component: require('../components/Setting.vue').default
+    },
+
+    {
+        path: '/template_object/:template_object',
+        name: 'template_object',
+        props: true,
+        component: require('../components/TemplateLoginSingup.vue').default
+    },
+
+    {
         path: '/',
         component: require('../components/Tutorial.vue').default
     }

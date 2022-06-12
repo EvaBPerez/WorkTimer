@@ -1,12 +1,14 @@
 #myHeader {
     width: 100%;
     height: auto;
-    background: #EAD6FF;
+    background: #a6e3e4;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 0px 0px 10px 10px;
     position: fixed;
     z-index: 3;
     top: 0;
+    min-height: 3rem;
+    min-width: 500px;
 }
 
 #worktimer {
@@ -15,6 +17,9 @@
     font-size: 34px;
     text-decoration: none;
     color: black;
+    transform: translate(0%, -5%);
+    position: relative;
+    font-family: 'Permanent Marker', cursive;
 }
 
 #login, #time {
@@ -34,15 +39,15 @@
 }
 
 body{ 
-    background-color: #FDF8FF;
+    background-color: #ecf3f4;
     position: relative;
-    padding-bottom: 8rem;
+    padding-bottom: 9rem;
+    padding-top: 2rem;
     min-height: 100vh;
     height: auto;
 }
 
-a:link, a:visited, a:hover, a:active
-{
+a:link, a:visited, a:hover, a:active, .button_login{
     color: #000000;
     text-decoration: none;
 }   
@@ -57,8 +62,8 @@ a:link, a:visited, a:hover, a:active
 
 .container_fluid_new {
     width: 100%;
-    padding-right: var(--bs-gutter-x, 0.75rem);
-    padding-left: var(--bs-gutter-x, 0.75rem);
+    padding-right: var(--bs-gutter-x, 2%);
+    padding-left: var(--bs-gutter-x, 2%);
     display: inline-flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
@@ -75,38 +80,100 @@ a:link, a:visited, a:hover, a:active
     border: 1px solid rgba(0, 0, 0, 0.36);
     border-radius: 17px;
     box-sizing: border-box;
-    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-    margin: 2%;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    margin: 3% 12 3% 12;
     position: relative;
-    z-index: 1;
+}
+
+.login_card {
+    background: #E2C097;
+    box-shadow: 0px 3px 6px 1px rgba(0, 0, 0, 0.3);
+    border-radius: 37px;
+    position: relative;
+
+    top: 6rem;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    max-width: 600px;
+
+    border: 1px solid rgba(0, 0, 0, 0.2);
+
+    flex-direction: column;
+    width: 100%;  
+
+    padding-top: 30px;
+    padding-right: 30px;
+    padding-left: 30px;
+    padding-bottom: 10px;
+    margin-bottom: 8rem;
+}
+
+.if_register {
+    text-align: center;
+    width: 100%;
+    margin-bottom: 3rem;
 }
 
 .button_card {
+    font-family: 'Indie Flower', cursive;
     box-sizing: border-box;
     width: auto;
     height: auto;
     left: 725px;
     top: 394px;
-    background: #E5D0FF;
-    border: 1px solid rgba(0, 0, 0, 0.38);
+    background: rgb(216, 123, 102);
     border-radius: 8px;
     padding-left: 5%;
     padding-right: 5%;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    text-decoration: none;
+    color: black;
 }
 
-.prueba {
-    position: absolute;
-    z-index: 2;
+.button_login, .button_avatar {
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    font-family: 'Indie Flower', cursive;
+    font-size: 1rem;
+
+    float: right;
+    position: relative;
+    top: 50%;
+    text-decoration: none;
+}
+
+.button_avatar {
+    transform: translate(-40%, 2%);
+    margin-top: 0.3rem;
+}
+
+.button_login {
+    background: rgb(34, 108, 133, 89%);
+    border-radius: 4px;
+    box-sizing: border-box;
+    width: auto;
+    height: auto;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    transform: translate(-20%, 30%);
+    color: white;
+}
+
+.sombra {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.7);
+}
+
+.sombra:active {
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.7);
 }
 
 .add_button {
-    
-
-    background: rgba(197, 182, 230, 0.51);
+    background: rgb(216, 123, 102, 78%);
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 7px;
     margin-bottom: 2%;
+    color: black;
 
     width: auto;
     height: auto;
@@ -117,7 +184,7 @@ a:link, a:visited, a:hover, a:active
 }
 
 .my_title {
-    font-family: 'Noto Serif Tamil Slanted';
+    font-family: 'Courgette', cursive;
     font-style: italic;
     font-weight: bold;
     font-size: 34px;
@@ -133,10 +200,10 @@ a:link, a:visited, a:hover, a:active
     padding-top: 0.5%;
     
     background: rgba(255, 255, 255, 0.65);
-    box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 9px;
-    margin-left: 10%;
-    text-align: left;
+
+    transform: translate(20%, -23%);
 }
 
 .timer {
@@ -161,7 +228,7 @@ a:link, a:visited, a:hover, a:active
     flex-direction: column;
     width: 100%;
     pointer-events: auto;
-    background-color: #CBAAED;
+    background-color: #E2C097;
     background-clip: padding-box;
     border: 1px solid rgba(0, 0, 0, 0.2);
     outline: 0;
@@ -193,9 +260,11 @@ a:link, a:visited, a:hover, a:active
     font-style: italic; 
     font-weight: bold;
     font-size: medium;
+    font-family: 'Lemonada', cursive;
 }
 
 .form_control_new {
+    font-family: 'Lemonada', cursive;
     width: 100%;
     padding: 0.375rem 0.75rem;
     font-size: 0.9rem;
@@ -215,24 +284,25 @@ a:link, a:visited, a:hover, a:active
 .button_close, .button_acept {
     margin-top: -4%;
     margin-bottom: 9%;
+    color: white;
 }
 
 .button_acept {
     float: right;
     margin-right: 10%;
+    background-color: rgb(216, 123, 102);
 }
 
 .button_close {
     float: left;
     margin-left: 10%;
+    background-color: rgb(216, 123, 102, 69%);
 }
 
 .btn_new {
+    font-family: 'Indie Flower', cursive;
     display: inline-block;
-    font-weight: 400;
     line-height: 1.6;
-    color: white;
-    font-weight: bold;
     text-decoration: none;
     vertical-align: middle;
     cursor: pointer;
@@ -242,13 +312,16 @@ a:link, a:visited, a:hover, a:active
     user-select: none;
     border: 1px solid transparent;
     padding: 0.375rem 0.75rem;
-    font-size: 0.9rem;
-    background-color: #A390CC;
+    font-size:1.2rem;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 9px;
     transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
-.btn_new:active, .button_card:active {
+.btn_new:active, .button_card:active, .button_login:active {
     box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.button_avatar:hover {
+    cursor: pointer;
 }

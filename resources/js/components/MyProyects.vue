@@ -1,12 +1,12 @@
 <template>
     <div class="container">
         <p class="my_title">Mis proyectos</p>
-        <button class="add_button" data-bs-toggle="modal" data-bs-target="#add_proyect">
+        <button class="btn_new add_button" data-bs-toggle="modal" data-bs-target="#add_proyect">
             Añadir proyecto
         </button>
     </div>
 
-    <div class="modal fade" style="background-color: rgba(254, 239, 255, 0.562);" id="add_proyect" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" style="background-color: rgb(236, 243, 244, 0.562);" id="add_proyect" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" style="position: relative;">
             <div class="modal_content_new">
                 <div class="modal_header_new">
@@ -58,9 +58,18 @@ export default {
     components: {proyect},
 
     beforeCreate() {
-        Axios.get('/all_proyects')
-            .then(res => {
-                this.ids = res.data;
+        Axios.get('/token')
+            .then((res) => {
+                this.user_token = res.data;
+
+                Axios.get(`/all_proyects/${(res.data[0])? 
+                        res.data[0].id: res.data.id}`)
+                    .then((respo) => {
+                        this.ids = respo.data;
+                    },
+                    (error) => {
+                        console.log(error.response.data);
+                    })
             },
             (error) => {
                 console.log(error.response.data);
@@ -71,13 +80,18 @@ export default {
         return {
             name: "", 
             color: "#ffffff",
-            ids: []
+            ids: [],
+            user_token: []
         }
     }, 
 
     computed: {
         getIds() {
             return this.ids;
+        },
+
+        getToken() {
+            return (this.user_token[0])? this.user_token[0]: this.user_token;
         }
     }, 
 
@@ -86,7 +100,7 @@ export default {
             if (!this.name) {
                 alert('No puedes dejar el nombre en blanco');
             } else {
-                Axios.post('/add_proyect', {name: this.name, color: this.color, user_id: 1})
+                Axios.post('/add_proyect', {name: this.name, color: this.color, user_id: this.getToken.id})
                     .then(() => {
                         alert('se he guardado correctamente');
                         window.location.href='/my_proyects';

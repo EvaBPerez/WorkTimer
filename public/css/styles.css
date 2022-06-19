@@ -22,6 +22,18 @@
     font-family: 'Permanent Marker', cursive;
 }
 
+#proyect:active{
+    background-image: url('../images/broke.png');
+    background-size: 15rem auto;
+    border-radius:50%;
+    -webkit-border-radius:50%;
+    box-shadow: 0px 0px 15px 15px #ec731e;
+    -webkit-box-shadow: 0px 0px 15px 15px #ec731e;
+    transition: 1s ease 0.7s;
+    transform: scale(0) rotate(1440deg);
+    -webkit-transform: scale(0) rotate(1440deg);
+}
+
 #login, #time {
     margin-top: 1rem;
 }
@@ -112,6 +124,8 @@ a:link, a:visited, a:hover, a:active, .button_login{
     text-align: center;
     width: 100%;
     margin-bottom: 3rem;
+    font-size: 20px;
+    font-family: 'Indie Flower', cursive;
 }
 
 .button_card {

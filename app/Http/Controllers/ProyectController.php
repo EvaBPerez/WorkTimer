@@ -60,9 +60,11 @@ class ProyectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($ids)
     {
         //
+        $proyect = Proyect::where('id', '=', $ids)->get()->toArray();
+        return response()->json($proyect);
     }
 
     /**
@@ -83,9 +85,21 @@ class ProyectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         //
+        $proyect_update = new Proyect();
+        $proyect_update->id = $request->get('id');
+        $proyect_update->name = $request->get('name');
+        $proyect_update->color = $request->get('color');
+
+        $proyect_db = Proyect::find($proyect_update->id);
+        if($proyect_db->name !== $proyect_update->name) $proyect_db->name = $proyect_update->name;
+        if($proyect_db->color !== $proyect_update->color) $proyect_db->color = $proyect_update->color;
+       
+        $proyect_db->save();
+
+        $request->session()->put(['proyect' => $proyect_update]);
     }
 
     /**

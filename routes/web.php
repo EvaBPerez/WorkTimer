@@ -21,6 +21,8 @@ Route::view('/tutorial','welcome');
 Route::view('/login','welcome');
 Route::view('/singup','welcome');
 Route::view('/setting','welcome');
+Route::view('/edit/{ids}','welcome');
+Route::view('/delete','welcome');
 
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProyectController;
@@ -37,6 +39,9 @@ Route::get('/user_info', [UserController::class, 'user_info']);
 //############## Controller proyect ##################
 Route::get('/all_proyects/{id}', [ProyectController::class, 'index']);
 Route::post('/add_proyect', [ProyectController::class, 'create']);
+Route::post('/update_proyect', [ProyectController::class, 'update']);
+Route::get('/edit/{ids}', [ProyectController::class, 'show']);
+Route::get('/delete/{id}', [ProyectController::class, 'destroy']);
 
 
 //############## Controller homework ##################

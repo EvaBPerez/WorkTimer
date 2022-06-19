@@ -24,6 +24,11 @@
                         <input type="text" class="form_control_new" v-model="name" id="inputName" placeholder="Escribir aquí..." required pattern="\d+">
                     </div>
 
+                    <div v-if="proyect_name != null" class="mb-3">
+                        <label for="inputProyect" class="col_form_label_new">{{proyect_name}} </label>
+                        <input type="text" class="form_control_new" v-model="p_name" id="inputProyect" placeholder="Escribir aquí..." required pattern="\d+">
+                    </div>
+
                     <div v-if="input_email != null" class="mb-3">
                         <label for="inputEmail" class="col_form_label_new">{{input_email}} </label>
                         <input type="text" class="form_control_new" v-model="email" id="inputEmail" placeholder="email@example.com" required pattern="\d+">
@@ -49,6 +54,11 @@
                         <input type="password" class="form_control_new" v-model="password_second" id="inputPassword" placeholder="Escribir aquí..." required pattern="\d+">
                     </div>
 
+                    <div v-if="color_name != null" class="mb-3">
+                        <label for="inputPassword" class="col_form_label_new">{{color_name}} </label>
+                        <input type="color" class="form-control form-control-color" v-model="color" id="inputColor" value="#ffffff">
+                    </div>
+
                 </form>
             </div>
 
@@ -67,11 +77,11 @@
         </div>
 
         <div v-if="title == 'Iniciar sesión'" class="if_register">
-            <p style="font-weight: bold;">{{first_subtext}} <router-link to="/singup" style="color: red; text-decoration: underline red;">{{second_subtext}}</router-link></p>
+            <p>{{first_subtext}} <router-link to="/singup" style="color: red; text-decoration: underline red;">{{second_subtext}}</router-link></p>
         </div>
 
         <div v-else-if="title == 'Registrarse'" class="if_register">
-            <p style="font-weight: bold;">{{first_subtext}} <router-link to="/login" style="color: red; text-decoration: underline red;">{{second_subtext}}</router-link></p>
+            <p>{{first_subtext}} <router-link to="/login" style="color: red; text-decoration: underline red;">{{second_subtext}}</router-link></p>
         </div>
     </div>
 </template>
@@ -94,6 +104,20 @@ export default {
                 (error) => {
                     console.log(error.response.data);
                 })
+
+        }
+        
+        if (this.template_object.title == 'Editar proyecto') {
+            Axios.get(`/edit/${this.template_object.id}`)
+            .then(res => {
+                console.log('entramos');
+                console.log(res.data);
+                this.p_name = (res.data[0])? res.data[0].name : res.data.name;
+                this.color = (res.data[0])? res.data[0].color : res.data.color;
+            },
+            (error) => {
+                console.log(error.response.data);
+            })
         }
     },
 
@@ -110,6 +134,11 @@ export default {
             first_subtext : (this.template_object.first_subtext)? this.template_object.first_subtext : null,
             second_subtext : (this.template_object.second_subtext)? this.template_object.second_subtext : null,
             margin_bottom : (this.template_object.margin_bottom)? this.template_object.margin_bottom : null,
+            proyect_name: (this.template_object.proyect_name)? this.template_object.proyect_name : null,
+            color_name: (this.template_object.color_name)? this.template_object.color_name : null,
+            color: '',
+            p_name: '',
+            id: (this.template_object.id)? this.template_object.id : null,
             email: '',
             rol: 2,
             name: '',
@@ -125,6 +154,10 @@ export default {
     computed: {
         getToken() {
             return (this.user_token[0])? this.user_token[0]: this.user_token;
+        },
+
+        getName() {
+            return this.p_name;
         }
     },
 
@@ -208,6 +241,26 @@ export default {
                             console.log(error.response.data); 
                         });
                     
+                    break;
+
+                case 'Editar proyecto':
+                    console.log(this.proyect);
+                    if (this.p_name == '') {
+                        alert('El nombre del proyecto está vacío.');
+                        break;
+                    }
+
+                    Axios.post('/update_proyect', {
+                        id: this.id,
+                        name: this.p_name,
+                        color: this.color
+                        }).then(() => {
+                            window.location.href='/my_proyects';
+
+                        }, function (error) {
+                            this.error="Error: Falta algún dato o están erróneos";
+                            console.log(error.response.data); 
+                        });
                     break;
             }
         }

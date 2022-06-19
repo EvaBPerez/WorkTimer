@@ -34,10 +34,22 @@ const router = [
     },
 
     {
+        path: '/delete',
+        component: require('../components/Delete.vue').default
+    },
+
+    {
         path: '/template_object/:template_object',
         name: 'template_object',
         props: true,
         component: require('../components/TemplateLoginSingup.vue').default
+    },
+
+    {
+        path: '/edit/:ids',
+        name: 'edit',
+        props: true,
+        component: require('../components/Edit.vue').default
     },
 
     {

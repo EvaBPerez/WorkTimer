@@ -17,9 +17,9 @@ return new class extends Migration
             $table->id();
             $table->date('date');
             $table->time('hour');
-            $table->foreignId('user_id')->constrained('user');
-            $table->foreignId('proyect_id')->constrained('proyect');
-            $table->foreignId('homework_id')->constrained('homework');
+            $table->foreignId('user_id')->references('id')->on('user')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('proyect_id')->references('id')->on('proyect')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('homework_id')->references('id')->on('homework')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

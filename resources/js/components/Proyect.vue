@@ -2,7 +2,8 @@
 <div id="proyect_animation">
 
 
-    <div class="card_new" id="proyect" 
+    <div class="card_new" v-bind:id="id_proyect" 
+    
         v-bind:style="{ 'background-color': getColor }" aria-disabled="true">
         <img src="../../../public/images/broke.png" class="oculta" id="roto">
         <div class="card-body">
@@ -22,7 +23,8 @@
                             Editar
                         </router-link></li>
                         <li><hr class="dropdown-divider" style="margin-left: 1.5rem; margin-right: 1.5rem;"></li>
-                        <li @click="this.mostrar()"><router-link to="/delete" class="dropdown-item" >Eliminar</router-link></li>
+                        <li @click="this.mostrar()"><router-link to="" class="dropdown-item" id="delete">Eliminar</router-link></li>
+                        <DeleteVue></DeleteVue>
                     </ul>
 
                 </div>
@@ -44,14 +46,16 @@
 </template>
 
 <script>
-import Axios from 'axios';
+    import DeleteVue from './Delete.vue';
+    import Axios from 'axios';
     import Edit from './Edit.vue';
+import { Transition } from 'vue';
+
 
 export default {
-
-    components:{Edit},
-
     props: ["proyect"],
+
+    components:{ Edit, DeleteVue},
 
     data() {
         return {
@@ -61,12 +65,15 @@ export default {
             value_color: this.proyect.color,
             value_name: this.proyect.name,
             show_modal: true,
-            edi: false
+            edi: false,
+            id_proyect: 'proyect' + this.proyect.id,
+            time_aux: 0
         }
     },
 
     watch:{
         proyect(val){
+            this.id = val.id;
             this.name = val.name;
             this.color = val.color; 
             this.value_color = val.color;
@@ -86,12 +93,49 @@ export default {
 
     methods: {
         mostrar() {
-            Axios.get(`/delete/${this.id}`)
+            console.log(this.id_proyect);
+            let pro = document.getElementById(this.id_proyect);
+            console.log(pro);
+            pro.style.setProperty("background-image", "url('../images/broke.png')");
+            pro.style.setProperty("background-size", "15rem auto");
+            pro.style.setProperty("box-shadow", "0px 0px 15px 15px #ec731e");
+            pro.style.setProperty("border-radius", "50%");
+
+            pro.animate([
+                {transform: 'rotate(1440deg) scale(0)'},
+            ], 
+                {duration: 1000}
+            );
+
+            Promise.all(
+                pro.getAnimations()
+                        .map(animation => animation.finished)
+            ).then(() => 
+                this.deleteProyect()
+            );
+
+            
+            
+            // window.setTimeout(this.deleteProyect, 1500);
+        },
+
+        deleteProyect() {
+            console.log('entramos');
+            Axios.get(`/delete/${this.getId}`)
                 .then(() => {
+                    this.$emit("loadProyect"); // emitimos un evento que recoge el componente padre "MyProyects"
+                    let pro = document.getElementById(this.id_proyect);
+                    pro.style.setProperty("background-image", "");
+                    pro.style.setProperty("background-size", "");
+                    pro.style.setProperty("box-shadow", "");
+                    pro.style.setProperty("border-radius", "");
+
                 },
                 (error) => {
                     console.error(error.response.data);
                 })
+
+            
         }
     }
 

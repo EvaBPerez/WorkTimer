@@ -34,7 +34,9 @@ const router = [
     },
 
     {
-        path: '/delete',
+        path: '/delete/:ids',
+        name: 'delete',
+        props: true,
         component: require('../components/Delete.vue').default
     },
 

@@ -97,7 +97,6 @@ class HomeworkController extends Controller
     public function destroy($id)
     {
         //
-        $homework = Homework::findOrFail($id);
-        $homework->delete();
+        $homework = Homework::find($id)->delete();
     }
 }

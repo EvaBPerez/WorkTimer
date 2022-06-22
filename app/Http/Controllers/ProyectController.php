@@ -108,10 +108,9 @@ class ProyectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($ids)
     {
         //
-        $proyect = Proyect::findOrFail($id);
-        $proyect->delete();
+        $proyect = Proyect::find($ids)->delete();
     }
 }

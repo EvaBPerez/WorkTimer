@@ -6,7 +6,7 @@
         </button>
     </div>
 
-    <div class="modal fade" style="background-color: rgb(236, 243, 244, 0.562);" id="add_proyect" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div v-show="show_modal" class="modal fade" style="background-color: rgb(236, 243, 244, 0.562);" id="add_proyect" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" style="position: relative;">
             <div class="modal_content_new">
                 <div class="modal_header_new">
@@ -28,7 +28,7 @@
 
                 <div class="row_new">
                     <div class="col-6">
-                        <button type="button" class="btn_new button_close" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn_new button_close" data-bs-dismiss="modal" id="close">Cancelar</button>
                     </div>
 
                     <div class="col-6">
@@ -43,7 +43,8 @@
 
     <div class="container_fluid_new">
         <div v-for="id in getIds" :proyect="id">
-            <proyect :proyect.sync="id"></proyect>
+            <proyect @loadProyect="loadProyect" :proyect.sync="id"></proyect>  
+            <!-- el @loadProyect="loadProyect" es para recibir el evento del componete hijo "proyect"-->
         </div>
     </div>
 
@@ -51,7 +52,7 @@
 </template>
 
 <script>
-import Axios from 'axios'
+    import Axios from 'axios'
     import proyect from './Proyect.vue'
 
 export default {
@@ -81,7 +82,9 @@ export default {
             name: "", 
             color: "#ffffff",
             ids: [],
-            user_token: []
+            user_token: [],
+            aux: 0,
+            show_modal: false
         }
     }, 
 
@@ -103,13 +106,26 @@ export default {
                 Axios.post('/add_proyect', {name: this.name, color: this.color, user_id: this.getToken.id})
                     .then(() => {
                         alert('se he guardado correctamente');
-                        window.location.href='/my_proyects';
+                        this.name = '';
+                        this.color = "#ffffff";
+                        this.loadProyect();
+                        document.getElementById('close').click();
                     },
                     (error) => {
                         console.log(error.response.data);
                     })
             }
             
+        },
+
+        loadProyect() {
+            Axios.get(`/all_proyects/${this.getToken.id}`)
+                .then((respo) => {
+                    this.ids = respo.data;
+              },
+                (error) => {
+                    console.log(error.response.data);
+                })
         }
     }
 

@@ -22,7 +22,7 @@ Route::view('/login','welcome');
 Route::view('/singup','welcome');
 Route::view('/setting','welcome');
 Route::view('/edit/{ids}','welcome');
-Route::view('/delete','welcome');
+Route::view('/delete/{ids}','welcome');
 
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProyectController;
@@ -41,7 +41,7 @@ Route::get('/all_proyects/{id}', [ProyectController::class, 'index']);
 Route::post('/add_proyect', [ProyectController::class, 'create']);
 Route::post('/update_proyect', [ProyectController::class, 'update']);
 Route::get('/edit/{ids}', [ProyectController::class, 'show']);
-Route::get('/delete/{id}', [ProyectController::class, 'destroy']);
+Route::get('/delete/{ids}', [ProyectController::class, 'destroy']);
 
 
 //############## Controller homework ##################

@@ -22,7 +22,7 @@
     font-family: 'Permanent Marker', cursive;
 }
 
-#proyect:active{
+.slide-fade-enter{
     background-image: url('../images/broke.png');
     background-size: 15rem auto;
     border-radius:50%;
@@ -131,17 +131,19 @@ a:link, a:visited, a:hover, a:active, .button_login{
 .button_card {
     font-family: 'Indie Flower', cursive;
     box-sizing: border-box;
-    width: auto;
-    height: auto;
+    width: 5rem;
+    height: 1.5rem;
     left: 725px;
     top: 394px;
     background: rgb(216, 123, 102);
     border-radius: 8px;
     padding-left: 5%;
     padding-right: 5%;
+    display: block;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     text-decoration: none;
     color: black;
+    text-align: center;
 }
 
 .button_login, .button_avatar {

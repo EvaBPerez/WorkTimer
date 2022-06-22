@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('color');
-            $table->foreignId('user_id')->constrained('user');
+            $table->foreignId('user_id')->references('id')->on('user')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

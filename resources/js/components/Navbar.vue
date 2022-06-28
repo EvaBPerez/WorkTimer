@@ -66,9 +66,50 @@
                                 <form>
                                     <div class="mb-3">
                                         <label class="col_form_label_new" for="inputGroupSelect01">Elige el proyecto: </label>
-                                        <label for="">Productivo</label>
-                                        <label for="">Normal</label>
-                                        <label for="">Improductivo</label>
+                                        <br>
+                                        <div class="row" style="text-align: center; font-family: 'Indie Flower', cursive; font-size: 19px;">
+                                            <div class="col-4">
+                                                <label for="">Productivo</label>
+                                                <br>
+                                                <div class="star">
+                                                    <div v-if="productivity == 1">
+                                                        <i style="font-size: 2rem;" class="bi bi-star-fill"></i>
+                                                    </div>
+                                                    <div v-else>
+                                                        <i @click="this.productivityChange(1)" style="font-size: 2rem;" class="bi bi-star"></i>
+                                                    </div>                                                    
+                                                </div>
+                                                
+                                            </div>
+                                            <div class="col-4" style="text-align: center;">
+                                                <label for="">Normal</label>
+                                                <br>
+                                                <div class="star">
+                                                    <div v-if="productivity == 2">
+                                                        <i style="font-size: 2rem;" class="bi bi-star-fill"></i>
+                                                    </div>
+                                                    <div v-else>
+                                                        <i @click="this.productivityChange(2)" style="font-size: 2rem;" class="bi bi-star"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-4" style="text-align: center;">
+                                                <label for="">Improductivo</label>
+                                                <br>
+                                                <div class="star">
+                                                    <div v-if="productivity == 3">
+                                                        <i style="font-size: 2rem;" class="bi bi-star-fill"></i>
+                                                    </div>
+                                                    <div v-else>
+                                                        <i @click="this.productivityChange(3)" style="font-size: 2rem;" class="bi bi-star"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        
+                                        
                                     </div>
                                 </form>
                             </div>
@@ -82,7 +123,7 @@
                             </div>
 
                             <div class="col-6">
-                                <button @click="this.startCrono()" type="button" class="btn_new button_acept">Añadir</button>
+                                <button @click="this.startCrono()" type="button" class="btn_new button_acept">Aceptar</button>
                             </div>
                         </div>
                         
@@ -200,12 +241,13 @@ export default {
             proyect_id: 'F',
             homework_id: 'F',
             crono_on: false, 
+            aceptar_crono: false,
             h: 0,
             m: 0,
             s: 0,
             crono_time: '', 
             total_time: '0 s',
-            productivity: 1,
+            productivity: null,
             history_id: 0
         }
     },
@@ -248,7 +290,6 @@ export default {
                         time: '0 s',
                         productivity: null})
                         .then((res) => {
-                            console.log(res.data.id);
                             this.history_id = res.data.id;
                             this.crono_on = true;
                             document.getElementById('close_crono').click();
@@ -263,8 +304,7 @@ export default {
                 }
 
             } else {
-                document.getElementById('close_crono').click();
-                this.crono_on = false;
+                (this.aceptar_crono) ? this.stopCrono() : this.aceptar_crono = true;
                 
             }
             
@@ -274,6 +314,8 @@ export default {
             this.error = '';
             this.proyect_id = 'F';
             this.homework_id = 'F';
+            this.aceptar_crono = false;
+            this.productivity = null;
         },
 
         initCrono() {
@@ -299,10 +341,9 @@ export default {
             (this.m < 10)? mAux = "0" + this.m : mAux = this.m;
             (this.h < 10)? hAux = "0" + this.h : hAux = this.h;
 
-            console.log( hAux + " : " + mAux + " : " + sAux);
             this.crono_time = hAux + " : " + mAux + " : " + sAux; 
 
-            if (this.crono_on) {
+            if (!this.aceptar_crono) {
                 this.updateCrono();
             } else {
                 if (this.h == 0 && this.m == 0) {
@@ -319,16 +360,30 @@ export default {
         },
 
         stopCrono() {
-            console.log(this.history_id);
-            Axios.post('/update_history', {
-                id: this.history_id,
-                time: this.total_time,
-                productivity: this.productivity})
-                .then(() => {
+            this.error = '';
+            if (this.productivity == null) {
+                this.error = 'Debes marcar tu nivel de productividad';
+                this.aceptar_crono = false;
+                this.updateCrono();
 
-                }, function(error) {
-                    console.log(error.response.data);
-                });
+            } else {
+                Axios.post('/update_history', {
+                    id: this.history_id,
+                    time: this.total_time,
+                    productivity: this.productivity})
+                    .then(() => {
+                        document.getElementById('close_crono').click();
+                        this.crono_on = false;
+                        this.aceptar_crono = false;
+
+                    }, function(error) {
+                        console.log(error.response.data);
+                    });
+            }
+        },
+
+        productivityChange(value) {
+            this.productivity = value;
         }
     },
 

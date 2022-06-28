@@ -31,7 +31,7 @@
             </div>
             
             <br><br>
-            <router-link :to="{name: 'homeworks', params: {id: this.proyect.id}}"
+            <router-link :to="{name: 'proyect_analitic', params: {id: this.proyect.id}}"
                 class="button_card">
                 <span style="text-decoration: none; color: black;">Ver más</span>
             </router-link>

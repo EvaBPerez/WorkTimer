@@ -11,6 +11,19 @@
     min-width: 500px;
 }
 
+.bi-star:before, .bi-star-fill:before {
+    text-align: center;
+    color: red;
+}
+
+.bi-star:hover:before {
+    content: '\F586';
+}
+
+.bi-star:active:before {
+    content: '\F586';
+}
+
 #worktimer {
     text-align: center;
     padding-top: 4.3rem;

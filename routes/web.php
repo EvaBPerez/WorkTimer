@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::view('/','welcome');
 Route::view('/my_proyects','welcome');
-Route::view('/homeworks/{id}','welcome');
+Route::view('/proyect_analitic/{id}','welcome');
 Route::view('/footer','welcome');
 Route::view('/tutorial','welcome');
 Route::view('/login','welcome');

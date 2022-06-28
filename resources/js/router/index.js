@@ -14,6 +14,13 @@ const router = [
     },
 
     {
+        path: '/proyect_analitic/:id',
+        name: 'proyect_analitic',
+        props: true,
+        component: require('../components/ProyectAnalitic.vue').default
+    },
+
+    {
         path: '/footer',
         component: require('../components/Footer.vue').default
     },

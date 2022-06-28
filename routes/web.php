@@ -21,12 +21,14 @@ Route::view('/tutorial','welcome');
 Route::view('/login','welcome');
 Route::view('/singup','welcome');
 Route::view('/setting','welcome');
-Route::view('/edit/{ids}','welcome');
+Route::view('/template_object/{template_object}','welcome');
+Route::view('/edit_proyect/{id}','welcome');
 Route::view('/delete/{ids}','welcome');
 
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProyectController;
 use App\Http\Controllers\HomeworkController;
+use App\Http\Controllers\HistoryController;
 //############## Controller user ##################
 Route::post('/signup', [UserController::class, 'create']);
 Route::get('/token', [UserController::class, 'show']);
@@ -40,9 +42,14 @@ Route::get('/user_info', [UserController::class, 'user_info']);
 Route::get('/all_proyects/{id}', [ProyectController::class, 'index']);
 Route::post('/add_proyect', [ProyectController::class, 'create']);
 Route::post('/update_proyect', [ProyectController::class, 'update']);
-Route::get('/edit/{ids}', [ProyectController::class, 'show']);
+Route::get('/edit/{id}', [ProyectController::class, 'show']);
 Route::get('/delete/{ids}', [ProyectController::class, 'destroy']);
 
 
 //############## Controller homework ##################
 Route::get('/homeworks/{id}', [HomeworkController::class, 'index']);
+
+
+//############## History homework ##################
+Route::post('/add_history', [HistoryController::class, 'create']);
+Route::post('/update_history', [HistoryController::class, 'update']);

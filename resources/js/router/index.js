@@ -48,8 +48,8 @@ const router = [
     },
 
     {
-        path: '/edit/:ids',
-        name: 'edit',
+        path: '/edit_proyect/:ids',
+        name: 'edit_proyect',
         props: true,
         component: require('../components/Edit.vue').default
     },

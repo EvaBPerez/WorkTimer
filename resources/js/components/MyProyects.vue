@@ -103,7 +103,14 @@ export default {
             if (!this.name) {
                 alert('No puedes dejar el nombre en blanco');
             } else {
-                Axios.post('/add_proyect', {name: this.name, color: this.color, user_id: this.getToken.id})
+                Axios.post('/add_proyect', {name: this.name, 
+                color: this.color, 
+                user_id: this.getToken.id, 
+                count: 0,
+                time_improduct: 0,
+                time_normal: 0, 
+                time_product: 0,
+                total_time: 0})
                     .then(() => {
                         alert('se he guardado correctamente');
                         this.name = '';

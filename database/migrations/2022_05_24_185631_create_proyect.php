@@ -18,6 +18,11 @@ return new class extends Migration
             $table->string('name');
             $table->string('color');
             $table->foreignId('user_id')->references('id')->on('user')->onDelete('cascade')->onUpdate('cascade');
+            $table->integer('time_improduct');
+            $table->integer('time_normal');
+            $table->integer('time_product');
+            $table->integer('count');
+            $table->integer('total_time');
             $table->timestamps();
         });
     }

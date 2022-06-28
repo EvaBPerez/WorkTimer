@@ -31,13 +31,19 @@ class ProyectController extends Controller
         $request->validate([
             'name'=>'required',
             'color'=>'required',
-            'user_id'=>'required'
+            'user_id'=>'required',
+            'count'=> 'required',
         ]);
 
         $proyect = new Proyect();
         $proyect->name = $request->get('name');
         $proyect->color = $request->get('color');
         $proyect->user_id = $request->get('user_id');
+        $proyect->time_improduct = $request->get('time_improduct');
+        $proyect->time_normal = $request->get('time_normal');
+        $proyect->time_product = $request->get('time_product');
+        $proyect->count = $request->get('count');
+        $proyect->total_time = $request->get('total_time');
         $proyect -> save();
 
         return response()->json($proyect);
@@ -60,10 +66,10 @@ class ProyectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($ids)
+    public function show($id)
     {
         //
-        $proyect = Proyect::where('id', '=', $ids)->get()->toArray();
+        $proyect = Proyect::where('id', '=', $id)->get()->toArray();
         return response()->json($proyect);
     }
 

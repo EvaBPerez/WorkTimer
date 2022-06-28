@@ -19,7 +19,7 @@
                     </a>
 
                     <ul class="dropdown-menu dropdown-menu-end" style="font-family: 'Indie Flower', cursive; font-size: 1.2rem; text-align: center;">
-                        <li><router-link :to="{name: 'edit', params: {ids: this.id}}" class="dropdown-item">
+                        <li><router-link :to="{name: 'edit_proyect', params: {ids: this.id}}" class="dropdown-item">
                             Editar
                         </router-link></li>
                         <li><hr class="dropdown-divider" style="margin-left: 1.5rem; margin-right: 1.5rem;"></li>
@@ -49,7 +49,6 @@
     import DeleteVue from './Delete.vue';
     import Axios from 'axios';
     import Edit from './Edit.vue';
-import { Transition } from 'vue';
 
 
 export default {
@@ -111,7 +110,7 @@ export default {
                 pro.getAnimations()
                         .map(animation => animation.finished)
             ).then(() => 
-                this.deleteProyect()
+            this.deleteProyect()
             );
 
             

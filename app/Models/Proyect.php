@@ -11,7 +11,7 @@ class Proyect extends Model
     use HasFactory;
     use Notifiable;
     protected $fillable = [
-        'name', 'color', 'user_id'
+        'name', 'color', 'user_id', 'time_improduct', 'time_normal', 'time_product', 'count', 'total_time'
     ];
     protected $table = 'proyect';
 }

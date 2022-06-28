@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Models\History;
 
 class HistoryController extends Controller
 {
@@ -21,9 +23,26 @@ class HistoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         //
+        $request->validate([
+            'user_id'=>'required',
+            'proyect_id'=>'required',
+            'homework_id'=>'required', 
+            'time'=> 'required',
+            'productivity'=> ''
+        ]);
+
+        $history = new History();
+        $history->user_id = $request->get('user_id');
+        $history->proyect_id = $request->get('proyect_id');
+        $history->homework_id = $request->get('homework_id');
+        $history->time = $request->get('time');
+        $history->productivity = $request->get('productivity');
+        $history -> save();
+
+        return response()->json($history);
     }
 
     /**
@@ -66,9 +85,21 @@ class HistoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         //
+        $history_update = new History();
+        $history_update->id = $request->get('id');
+        $history_update->time = $request->get('time');
+        $history_update->productivity = $request->get('productivity');
+
+        $history_db = History::find($history_update->id);
+        if($history_db->time !== $history_update->time) $history_db->time = $history_update->time;
+        if($history_db->productivity !== $history_update->productivity) $history_db->productivity = $history_update->productivity;
+       
+        $history_db->save();
+
+        $request->session()->put(['history' => $history_update]);
     }
 
     /**

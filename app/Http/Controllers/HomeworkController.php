@@ -30,14 +30,21 @@ class HomeworkController extends Controller
         //
         $request->validate([
             'name'=>'required',
-            'color'=>'',
-            'user_id'=>'required'
+            'user_id'=>'required',
+            'proyect_id'=>'required', 
+            'count'=>'required',
         ]);
 
         $homework = new Homework();
         $homework->name = $request->get('name');
         $homework->color = $request->get('color');
         $homework->user_id = $request->get('user_id');
+        $homework->proyect_id = $request->get('proyect_id');
+        $homework->time_improduct = $request->get('time_improduct');
+        $homework->time_normal = $request->get('time_normal');
+        $homework->time_product = $request->get('time_product');
+        $homework->count = $request->get('count');
+        $homework->total_time = $request->get('total_time');
         $homework -> save();
 
         return response()->json($homework);

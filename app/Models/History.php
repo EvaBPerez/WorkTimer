@@ -11,7 +11,7 @@ class History extends Model
     use HasFactory;
     use Notifiable;
     protected $fillable = [
-        'date', 'hour', 'user_id', 'proyect_id', 'homework_id'
+        'time', 'productivity', 'user_id', 'proyect_id', 'homework_id'
     ];
     protected $table = 'history';
 }

@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('history', function (Blueprint $table) {
             $table->id();
-            $table->string('time');
+            $table->integer('time');
             $table->enum('productivity', ['1', '2', '3'])->nullable();
             $table->foreignId('user_id')->references('id')->on('user')->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('proyect_id')->references('id')->on('proyect')->onDelete('cascade')->onUpdate('cascade');

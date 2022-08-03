@@ -17,5 +17,6 @@ export default {
         bottom: 0;
         background: #094154;
         border-radius: 10px 10px 0px 0px;
+        align-self: flex-end;
     }
 </style>

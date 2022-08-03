@@ -56,7 +56,7 @@
 
                     <div v-if="color_name != null" class="mb-3">
                         <label for="inputPassword" class="col_form_label_new">{{color_name}} </label>
-                        <input type="color" class="form-control form-control-color" v-model="color" id="inputColor" value="#ffffff">
+                        <input type="color" class="form-control form-control-color" v-model="color" id="inputColor" value="white">
                     </div>
 
                 </form>
@@ -64,8 +64,16 @@
 
             <div class="row_new">
                 <div class="col-6">
-                    <router-link to="/my_proyects" type="button" class="btn_new button_close" style="margin-top: 2rem; color: white;">
+                    <div v-if="template_object.title == 'Editar tarea'">
+                        <button @click="this.close()" type="button" class="btn_new button_close" style="margin-top: 2rem; color: white;">
+                        Cancelar</button>
+                    </div>
+
+                    <div v-else>
+                        <router-link to="/my_proyects" type="button" class="btn_new button_close" style="margin-top: 2rem; color: white;">
                         Cancelar</router-link>
+                    </div>
+                    
                 </div>
 
                 <div class="col-6">
@@ -82,6 +90,44 @@
 
         <div v-else-if="title == 'Registrarse'" class="if_register">
             <p>{{first_subtext}} <router-link to="/login" style="color: red; text-decoration: underline red;">{{second_subtext}}</router-link></p>
+        </div>
+
+        <div v-else-if="title == 'Mis datos'" class="if_register">
+            <p >{{first_subtext}} <span data-bs-toggle="modal" data-bs-target="#delete_user" style="color: red; text-decoration: underline red; cursor: pointer;">{{second_subtext}}</span></p>
+
+            <div v-show="show_modal" class="modal fade" style="background-color: rgb(236, 243, 244, 0.562);" id="delete_user" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" style="position: relative;">
+                    <div class="modal_content_new">
+                        <div class="modal_header_new">
+                            <h5 class="modal-title my_title" id="exampleModalLabel">Eliminar mi cuenta</h5>
+                        </div>
+                        
+                        <div class="modal-body">
+                            <form>
+                                <div class="mb-3">
+                                    <label for="color-card" class="col_form_label_new" style="color:red;">¿Estás seguro de que deseas eliminar la cuenta? No podrás recuperar los datos. </label>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="row_new">
+                            <div class="col-6">
+                                <button type="button" class="btn_new button_close" data-bs-dismiss="modal" id="close">Cancelar</button>
+                            </div>
+
+                            <div class="col-6">
+                                <button @click="this.resetUser()" type="button" class="btn_new button_acept">Aceptar </button>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+
+            </div>
+
+
+
+            
         </div>
     </div>
 </template>
@@ -105,19 +151,27 @@ export default {
                     console.log(error.response.data);
                 })
 
-        }
-        
-        if (this.template_object.title == 'Editar proyecto') {
+        } else if (this.template_object.title == 'Editar proyecto') {
             Axios.get(`/edit/${this.template_object.id}`)
             .then(res => {
-                console.log('entramos');
-                console.log(res.data);
+                this.proyect_info = (res.data[0])? res.data[0] : res.data;
                 this.p_name = (res.data[0])? res.data[0].name : res.data.name;
                 this.color = (res.data[0])? res.data[0].color : res.data.color;
             },
             (error) => {
                 console.log(error.response.data);
             })
+
+        } else if (this.template_object.title == 'Editar tarea') {
+            Axios.get(`/edit_h/${this.template_object.id}`)
+                .then(res => {
+                    this.homework_info = (res.data[0])? res.data[0] : res.data;
+                    this.p_name = (res.data[0])? res.data[0].name : res.data.name;
+                    this.color = (res.data[0])? res.data[0].color : res.data.color;
+                },
+                (error) => {
+                    console.log(error.response.data);
+                })
         }
     },
 
@@ -147,7 +201,9 @@ export default {
             password_second: '',
             error: '',
             photo: '',
-            user_token: []
+            user_token: [],
+            proyect_info: [],
+            homework_info: []
         }
     },
 
@@ -162,14 +218,16 @@ export default {
     },
 
     methods: {
+        close() {
+            window.location.href='/homeworks/' + this.homework_info.proyect_id;
+        },
+
         acept() {
             let vm = this;
 
             switch(this.title) {
                 case 'Iniciar sesión' || 'Crear usuario': 
                     this.error='';
-                    console.log(this.email);
-                    console.log(this.password);
                     Axios.post('/login', {email: this.email, password: this.password}).then((res) => {
                         if(res.data==='ok') {
                             window.location.href='/my_proyects';
@@ -237,32 +295,75 @@ export default {
                             window.location.href='/my_proyects';
 
                         }, function (error) {
-                            vm.error="Error: Falta algún dato o están erróneos";
+                            this.error="Error: Falta algún dato o están erróneos";
                             console.log(error.response.data); 
                         });
                     
                     break;
 
                 case 'Editar proyecto':
-                    console.log(this.proyect);
                     if (this.p_name == '') {
                         alert('El nombre del proyecto está vacío.');
                         break;
                     }
-
+                    vm = this;
                     Axios.post('/update_proyect', {
                         id: this.id,
                         name: this.p_name,
-                        color: this.color
+                        color: this.color,
+                        time_improduct: (this.proyect_info[0])? this.proyect_info[0].time_improduct : this.proyect_info.time_improduct,
+                        time_product: (this.proyect_info[0])? this.proyect_info[0].time_product : this.proyect_info.time_product,
+                        count: (this.proyect_info[0])? this.proyect_info[0].count : this.proyect_info.count, 
+                        total_time: (this.proyect_info[0])? this.proyect_info[0].total_time : this.proyect_info.total_time
                         }).then(() => {
                             window.location.href='/my_proyects';
+
+                        }, function (error) {
+                            vm.error="Error: Falta algún dato o están erróneos";
+                            console.log(error.response.data); 
+                        });
+                    break;
+
+                case 'Editar tarea':
+                    if (this.p_name == '') {
+                        alert('El nombre de la tarea está vacío.');
+                        break;
+                    }
+                    vm = this;
+                    Axios.post('/update_homework', {
+                        id: this.id,
+                        name: this.p_name,
+                        color: this.color,
+                        time_improduct: (this.homework_info[0])? this.homework_info[0].time_improduct : this.homework_info.time_improduct,
+                        time_product: (this.homework_info[0])? this.homework_info[0].time_product : this.homework_info.time_product,
+                        count: (this.homework_info[0])? this.homework_info[0].count : this.homework_info.count, 
+                        total_time: (this.homework_info[0])? this.homework_info[0].total_time : this.homework_info.total_time
+                        }).then(() => {
+                            window.location.href='/homeworks/' + this.homework_info.proyect_id;
+
+                        }, function (error) {
+                            vm.error="Error: Falta algún dato o están erróneos";
+                            console.log(error.response.data); 
+                        });
+                    break;
+            }
+        },
+
+        resetUser() {
+            Axios.post('/delete_user', {
+                        id: this.getToken.id,
+                        name: this.name,
+                        email: this.email, 
+                        password: this.getToken.password,
+                        type: this.getToken.type,
+                        photo: this.photo}).then(() => {
+                            alert('La cuenta ha sido eliminada correctamente.')
+                            window.location.href='/';
 
                         }, function (error) {
                             this.error="Error: Falta algún dato o están erróneos";
                             console.log(error.response.data); 
                         });
-                    break;
-            }
         }
     }
 }

@@ -34,6 +34,7 @@ export const instance = axios.create({
     timeout: 1000,
     headers: {'X-Custom_Header': 'foobar'}
 });
+
 const app = createApp(App);
 app.use(router);
 app.mount('#app');

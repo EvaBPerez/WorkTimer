@@ -3,7 +3,7 @@
         <div class="row_new">
             <div class="col-3">
                 <div v-if="user_token.length != 0">
-                    <button id="time" class="btn_new timer_button" data-bs-toggle="modal" data-bs-target="#crono">
+                    <button @click="this.searchProyects()" id="time" class="btn_new timer_button" data-bs-toggle="modal" data-bs-target="#crono">
                         <div v-if="crono_on">
                             <p class="timer" v-html="crono_time"></p>
                         </div>
@@ -15,7 +15,7 @@
                 </div>
             </div>
 
-            <div class="modal fade" style="background-color: rgb(236, 243, 244, 0.562);" id="crono" tabindex="-1" aria-labelledby="cronoModal" aria-hidden="true">
+            <div class="modal fade" style="background-color: rgb(236, 243, 244, 0.562); z-index: 150;" id="crono" tabindex="-1" aria-labelledby="cronoModal" aria-hidden="true" >
                 <div class="modal-dialog" style="position: relative;">
                     <div class="modal_content_new">
                         <div class="modal_header_new">
@@ -36,10 +36,10 @@
                             <div class="modal-body">
                                 <form>
                                     <div class="mb-3">
-                                        <label class="col_form_label_new" for="inputGroupSelect01">Elige el proyecto: </label>
+                                        <label class="col_form_label_new" for="input_history">Elige el proyecto: </label>
 
-                                        <select class="form-select" style="background-color: rgba(250, 250, 250, 0.59); border-radius: 12px;" 
-                                        id="input_proyect" v-on:change="this.searchHomeworks()" v-model="proyect_id">
+                                        <select class="form-select" style="background-color: rgba(250, 250, 250, 0.59); border-radius: 12px; font-family: 'Indie Flower', cursive; font-size: 19px;" 
+                                        id="input_history" v-on:change="this.searchHomeworks()" v-model="proyect_id">
                                             <option selected value="F">Selecciona alguno</option>
                                             <option v-for="proyect in getProyect"
                                                 v-bind:value="proyect.id">{{proyect.name}}
@@ -47,9 +47,9 @@
                                         </select>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="color-card" class="col_form_label_new">Elige la tarjeta: </label>
-                                        <select class="form-select" style="background-color: rgba(250, 250, 250, 0.59); border-radius: 12px;" 
-                                        id="input_homework" v-model="homework_id">
+                                        <label for="input_history_homework" class="col_form_label_new">Elige la tarjeta: </label>
+                                        <select class="form-select" style="background-color: rgba(250, 250, 250, 0.59); border-radius: 12px; font-family: 'Indie Flower', cursive; font-size: 19px;" 
+                                        id="input_history_homework" v-model="homework_id">
                                             <option selected value="F">Selecciona alguno</option>
                                             <option v-for="homework in getHomework"
                                                 v-bind:value="homework.id">{{homework.name}}
@@ -65,7 +65,7 @@
                             <div class="modal-body">
                                 <form>
                                     <div class="mb-3">
-                                        <label class="col_form_label_new" for="inputGroupSelect01">Elige el proyecto: </label>
+                                        <label class="col_form_label_new" for="input_productive">Crees que el tiempo ha sido: </label>
                                         <br>
                                         <div class="row" style="text-align: center; font-family: 'Indie Flower', cursive; font-size: 19px;">
                                             <div class="col-4">
@@ -123,7 +123,7 @@
                             </div>
 
                             <div class="col-6">
-                                <button @click="this.startCrono()" type="button" class="btn_new button_acept">Aceptar</button>
+                                <button @click="this.startCrono()" type="button" class="btn_new button_acept" data-backdrop="false">Aceptar</button>
                             </div>
                         </div>
                         
@@ -158,10 +158,10 @@
                                 <li><router-link to="/setting" class="dropdown-item">Perfil</router-link></li>
                                 <li><router-link to="/my_proyects" class="dropdown-item">Mis proyectos</router-link></li>
                                 <li><router-link to="/" class="dropdown-item">Usuarios</router-link></li>
-                                <li><router-link to="/setting" class="dropdown-item">Historial</router-link></li>
-                                <li><router-link to="/setting" class="dropdown-item">Turorial</router-link></li>
+                                <li><router-link to="/history" class="dropdown-item">Historial</router-link></li>
+                                <li><router-link to="/" class="dropdown-item">Turorial</router-link></li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a href="#" class="dropdown-item" @click="this.logout()">Cerrar sesión</a></li>
+                                <li><router-link to="/" class="dropdown-item" @click="this.logout()">Cerrar sesión</router-link></li>
                             </ul>
                         </div>
 
@@ -171,13 +171,13 @@
                                 <img v-bind:src="user_photo" width="40" height="40" alt="asd" class="rounded-circle sombra">
                             </a>
 
-                            <ul class="dropdown-menu">
+                            <ul class="dropdown-menu" style="font-size: 1.2rem;">
                                 <li><router-link to="/setting" class="dropdown-item">Perfil</router-link></li>
                                 <li><router-link to="/my_proyects" class="dropdown-item">Mis proyectos</router-link></li>
-                                <li><router-link to="/setting" class="dropdown-item">Historial</router-link></li>
-                                <li><router-link to="/setting" class="dropdown-item">Tutorial</router-link></li>
+                                <li><router-link to="/history" class="dropdown-item">Historial</router-link></li>
+                                <li><router-link to="/" class="dropdown-item">Tutorial</router-link></li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a href="#" class="dropdown-item" @click="this.logout()">Cerrar sesión</a></li>
+                                <li><router-link to="/" class="dropdown-item" @click="this.logout()">Cerrar sesión</router-link></li>
                             </ul>
                         </div>
                         
@@ -216,15 +216,6 @@ export default {
         Axios.get('/token')
             .then((res) => {
                 this.user_token = res.data;
-
-                Axios.get(`/all_proyects/${(res.data[0])? 
-                        res.data[0].id: res.data.id}`)
-                    .then((respo) => {
-                        this.proyects = respo.data;
-                    },
-                    (error) => {
-                        console.log(error.response.data);
-                    })
             },
             (error) => {
                 console.log(error.response.data);
@@ -245,10 +236,10 @@ export default {
             h: 0,
             m: 0,
             s: 0,
-            crono_time: '', 
-            total_time: '0 s',
+            crono_time: '',
             productivity: null,
-            history_id: 0
+            history_id: 0,
+            seg: 0
         }
     },
 
@@ -266,9 +257,19 @@ export default {
             });
         }, 
 
+        searchProyects() {
+            Axios.get(`/all_proyects/${this.getToken.id}`)
+            .then((respo) => {
+                this.proyects = respo.data;
+            },
+            (error) => {
+                console.log(error.response.data);
+            })
+        },
+
         searchHomeworks() {
-            let proyect = document.getElementById('input_proyect');
-            Axios.get(`/homeworks/${proyect.value}`)
+            let proyect = document.getElementById('input_history');
+            Axios.get(`/all_homeworks/${proyect.value}`)
                     .then((respo) => {
                         this.homeworks = respo.data;
                     },
@@ -287,7 +288,7 @@ export default {
                         {user_id: this.getToken.id,
                         proyect_id: this.proyect_id,
                         homework_id: this.homework_id, 
-                        time: '0 s',
+                        time: 0,
                         productivity: null})
                         .then((res) => {
                             this.history_id = res.data.id;
@@ -311,9 +312,11 @@ export default {
         }, 
 
         clearInfo() {
+            if(!this.crono_on) {
+                this.proyect_id = 'F';
+                this.homework_id = 'F';
+            }
             this.error = '';
-            this.proyect_id = 'F';
-            this.homework_id = 'F';
             this.aceptar_crono = false;
             this.productivity = null;
         },
@@ -322,6 +325,7 @@ export default {
             this.h = 0;
             this.m = 0;
             this.s = 0;
+            this.seg = 0;
             this.crono_time="00 : 00 : 00";
             this.updateCrono();
         },
@@ -333,6 +337,7 @@ export default {
         writeCrono() {
             let hAux, mAux, sAux;
             this.s++;
+            this.seg++;
             if (this.s > 59) {this.m++; this.s = 0;}
             if (this.m > 59) {this.h++; this.m = 0;}
             if (this.h > 24) {this.h = 0;}
@@ -346,14 +351,6 @@ export default {
             if (!this.aceptar_crono) {
                 this.updateCrono();
             } else {
-                if (this.h == 0 && this.m == 0) {
-                    this.total_time = this.s + ' s';
-                } else if(this.h == 0) {
-                    this.total_time = this.m + ' m ' + this.s + ' s ';
-                } else {
-                    this.total_time = this.h + ' h ' + this.m + ' m ' + this.s + ' s ';
-                }
-
                 this.stopCrono();
             }
             
@@ -367,18 +364,75 @@ export default {
                 this.updateCrono();
 
             } else {
+                //actualizamos el histórico
                 Axios.post('/update_history', {
                     id: this.history_id,
-                    time: this.total_time,
+                    time: this.seg,
                     productivity: this.productivity})
                     .then(() => {
-                        document.getElementById('close_crono').click();
                         this.crono_on = false;
                         this.aceptar_crono = false;
 
                     }, function(error) {
                         console.log(error.response.data);
                     });
+
+                //Actualizamos los datos del proyecto
+                Axios.get(`/edit/${this.proyect_id}`)
+                    .then((res) => {
+                        Axios.post('/update_proyect', {
+                            id: this.proyect_id, 
+                            name: (res.data[0])? res.data[0].name : res.data.name,
+                            color: (res.data[0])? res.data[0].color : res.data.color, 
+                            time_product: (this.productivity == 1)? ((res.data[0])? res.data[0].time_product + this.seg : res.data.time_product + this.seg) 
+                                : (res.data[0])? res.data[0].time_product : res.data.time_product,
+                            time_improduct: (this.productivity == 3)? ((res.data[0])? res.data[0].time_improduct + this.seg : res.data.time_improduct + this.seg) 
+                                : (res.data[0])? res.data[0].time_improduct : res.data.time_improduct,
+                            count: (res.data[0])? res.data[0].count + 1 : res.data.count + 1,
+                            total_time: (res.data[0])? res.data[0].total_time + this.seg : res.data.total_time + this.seg,
+                        }).then(() => {
+                            document.getElementById('close_crono').click();
+                            this.proyect_id = 'F';
+                             this.homework_id = 'F';
+
+                            //hacemos que se actualicen las estadísticas
+                            
+                        }, function(error) {
+                            console.log(error.response.data);
+                        });
+                    
+                    }, function (error) {
+                        console.log(error.response.data);
+                    });
+
+
+                //Actualizamos los datos de la tarea
+                Axios.get(`/edit_h/${this.homework_id}`)
+                    .then((res) => {
+                        Axios.post('/update_homework', {
+                            id: this.homework_id, 
+                            name: (res.data[0])? res.data[0].name : res.data.name,
+                            color: (res.data[0])? res.data[0].color : res.data.color, 
+                            time_product: (this.productivity == 1)? ((res.data[0])? res.data[0].time_product + this.seg : res.data.time_product + this.seg) 
+                                : (res.data[0])? res.data[0].time_product : res.data.time_product,
+                            time_improduct: (this.productivity == 3)? ((res.data[0])? res.data[0].time_improduct + this.seg : res.data.time_improduct + this.seg) 
+                                : (res.data[0])? res.data[0].time_improduct : res.data.time_improduct,
+                            count: (res.data[0])? res.data[0].count + 1 : res.data.count + 1,
+                            total_time: (res.data[0])? res.data[0].total_time + this.seg : res.data.total_time + this.seg,
+                        }).then(() => {
+                            document.getElementById('close_crono').click();
+                            this.proyect_id = 'F';
+                            this.homework_id = 'F';
+                            
+                            
+                        }, function(error) {
+                            console.log(error.response.data);
+                        });
+                    
+                    }, function (error) {
+                        console.log(error.response.data);
+                    });
+                    
             }
         },
 

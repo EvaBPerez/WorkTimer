@@ -21,7 +21,9 @@ export default {
                 input_email: 'Email:',
                 old_password: 'Antigua contraseña:',
                 first_password: 'Nueva contraseña:',
-                second_password: 'Confirma la contraseña:'
+                second_password: 'Confirma la contraseña:',
+                first_subtext: '¿Deseas eliminar tu cuenta?',
+                second_subtext: 'Haz clic aquí'
             }
         }
     }

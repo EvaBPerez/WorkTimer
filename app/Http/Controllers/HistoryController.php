@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\History;
+use App\Models\Homework;
+use App\Models\Proyect;
 
 class HistoryController extends Controller
 {
@@ -13,9 +15,15 @@ class HistoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
         //
+        $history = DB::table('history')
+            ->select('history.id', 'history.time', 'history.created_at', 'proyect.name as proyect_name', 'homework.name as homework_name')
+            ->where('history.user_id', '=', $id)
+            ->crossJoin('proyect', 'proyect.id', '=', 'history.proyect_id')
+            ->crossJoin('homework', 'homework.id', '=', 'history.homework_id')->get();
+        return response()->json($history);
     }
 
     /**
@@ -108,8 +116,35 @@ class HistoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
         //
+        $arrayOn = $request->get('array');
+         for ($i = 0; $i < count($arrayOn); $i++) {
+            $history = History::find($arrayOn[$i]);
+            $homework = Homework::find($history->homework_id);
+            $proyect = Proyect::find($history->proyect_id);
+
+            $homework->total_time = $homework->total_time - $history->time;
+            $proyect->total_time = $proyect->total_time - $history->time;
+            $homework->count = $homework->count - 1;
+            $proyect->count = $proyect->count - 1;
+            if ($history->productivity == 1) { //es productivo
+                $homework->time_product = $homework->time_product - $history->time;
+                $proyect->time_product = $proyect->time_product - $proyect->time;
+            } else if ($history->productivity == 3) { //es productivo
+                $homework->time_improduct = $homework->time_improduct - $history->time;
+                $proyect->time_improduct = $proyect->time_improduct - $proyect->time;
+            }
+
+            $homework->save();
+            $proyect->save();
+
+            $history->delete();
+
+            $request->session()->put(['proyect' => $proyect]);
+            $request->session()->put(['homework' => $proyect]);
+        }
+        
     }
 }

@@ -14,10 +14,22 @@ const router = [
     },
 
     {
+        path: '/history',
+        component: require('../components/History.vue').default
+    },
+
+    {
         path: '/proyect_analitic/:id',
         name: 'proyect_analitic',
         props: true,
         component: require('../components/ProyectAnalitic.vue').default
+    },
+
+    {
+        path: '/homework_analitic/:id',
+        name: 'homework_analitic',
+        props: true,
+        component: require('../components/HomeworkAnalitic.vue').default
     },
 
     {
@@ -58,7 +70,14 @@ const router = [
         path: '/edit_proyect/:ids',
         name: 'edit_proyect',
         props: true,
-        component: require('../components/Edit.vue').default
+        component: require('../components/EditProyect.vue').default
+    },
+
+    {
+        path: '/edit_homework/:ids',
+        name: 'edit_homework',
+        props: true,
+        component: require('../components/EditHomework.vue').default
     },
 
     {

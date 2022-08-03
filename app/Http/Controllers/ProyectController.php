@@ -98,10 +98,20 @@ class ProyectController extends Controller
         $proyect_update->id = $request->get('id');
         $proyect_update->name = $request->get('name');
         $proyect_update->color = $request->get('color');
+        $proyect_update->time_improduct = $request->get('time_improduct');
+        $proyect_update->time_product = $request->get('time_product');
+        $proyect_update->count = $request->get('count');
+        $proyect_update->total_time = $request->get('total_time');
+
 
         $proyect_db = Proyect::find($proyect_update->id);
         if($proyect_db->name !== $proyect_update->name) $proyect_db->name = $proyect_update->name;
         if($proyect_db->color !== $proyect_update->color) $proyect_db->color = $proyect_update->color;
+        if($proyect_db->time_improduct !== $proyect_update->time_improduct) $proyect_db->time_improduct = $proyect_update->time_improduct;
+        if($proyect_db->time_product !== $proyect_update->time_product) $proyect_db->time_product = $proyect_update->time_product;
+        if($proyect_db->count !== $proyect_update->count) $proyect_db->count = $proyect_update->count;
+        if($proyect_db->total_time !== $proyect_update->total_time) $proyect_db->total_time = $proyect_update->total_time;
+        
        
         $proyect_db->save();
 

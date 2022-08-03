@@ -70,6 +70,8 @@ class HomeworkController extends Controller
     public function show($id)
     {
         //
+        $homework = Homework::where('id', '=', $id)->get()->toArray();
+        return response()->json($homework);
     }
 
     /**
@@ -90,9 +92,31 @@ class HomeworkController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         //
+        $homework_update = new Homework();
+        $homework_update->id = $request->get('id');
+        $homework_update->name = $request->get('name');
+        $homework_update->color = $request->get('color');
+        $homework_update->time_improduct = $request->get('time_improduct');
+        $homework_update->time_product = $request->get('time_product');
+        $homework_update->count = $request->get('count');
+        $homework_update->total_time = $request->get('total_time');
+
+
+        $homework_db = Homework::find($homework_update->id);
+        if($homework_db->name !== $homework_update->name) $homework_db->name = $homework_update->name;
+        if($homework_db->color !== $homework_update->color) $homework_db->color = $homework_update->color;
+        if($homework_db->time_improduct !== $homework_update->time_improduct) $homework_db->time_improduct = $homework_update->time_improduct;
+        if($homework_db->time_product !== $homework_update->time_product) $homework_db->time_product = $homework_update->time_product;
+        if($homework_db->count !== $homework_update->count) $homework_db->count = $homework_update->count;
+        if($homework_db->total_time !== $homework_update->total_time) $homework_db->total_time = $homework_update->total_time;
+        
+       
+        $homework_db->save();
+
+        $request->session()->put(['homework' => $homework_update]);
     }
 
     /**

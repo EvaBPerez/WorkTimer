@@ -1,6 +1,6 @@
+
 <template>
 <div id="proyect_animation">
-
 
     <div class="card_new" v-bind:id="id_proyect" 
     
@@ -48,7 +48,7 @@
 <script>
     import DeleteVue from './Delete.vue';
     import Axios from 'axios';
-    import Edit from './Edit.vue';
+    import Edit from './EditProyect.vue';
 
 
 export default {
@@ -92,9 +92,7 @@ export default {
 
     methods: {
         mostrar() {
-            console.log(this.id_proyect);
             let pro = document.getElementById(this.id_proyect);
-            console.log(pro);
             pro.style.setProperty("background-image", "url('../images/broke.png')");
             pro.style.setProperty("background-size", "15rem auto");
             pro.style.setProperty("box-shadow", "0px 0px 15px 15px #ec731e");
@@ -119,7 +117,6 @@ export default {
         },
 
         deleteProyect() {
-            console.log('entramos');
             Axios.get(`/delete/${this.getId}`)
                 .then(() => {
                     this.$emit("loadProyect"); // emitimos un evento que recoge el componente padre "MyProyects"

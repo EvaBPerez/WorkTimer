@@ -157,7 +157,7 @@
                              <ul class="dropdown-menu" style="font-size: 1.2rem;">
                                 <li><router-link to="/setting" class="dropdown-item">Perfil</router-link></li>
                                 <li><router-link to="/my_proyects" class="dropdown-item">Mis proyectos</router-link></li>
-                                <li><router-link to="/" class="dropdown-item">Usuarios</router-link></li>
+                                <li><router-link to="/users_list" class="dropdown-item">Usuarios</router-link></li>
                                 <li><router-link to="/history" class="dropdown-item">Historial</router-link></li>
                                 <li><router-link to="/" class="dropdown-item">Turorial</router-link></li>
                                 <li><hr class="dropdown-divider"></li>

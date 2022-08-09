@@ -19,6 +19,11 @@ const router = [
     },
 
     {
+        path: '/users_list',
+        component: require('../components/UsersList.vue').default
+    },
+
+    {
         path: '/proyect_analitic/:id',
         name: 'proyect_analitic',
         props: true,
@@ -71,6 +76,13 @@ const router = [
         name: 'edit_proyect',
         props: true,
         component: require('../components/EditProyect.vue').default
+    },
+
+    {
+        path: '/edit_user_admin/:id',
+        name: 'edit_user_admin',
+        props: true,
+        component: require('../components/SettingAdmin.vue').default
     },
 
     {

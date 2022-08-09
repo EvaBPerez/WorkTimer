@@ -12,8 +12,9 @@
 
                 <form @submit="this.acept()">
                     <div v-if="user_rol != null" class="mb-3">
-                        <label>{{user_rol}}</label><br>
-                        <select v-model="rol" id="rol">
+                        <label for="inputRol" class="col_form_label_new">{{user_rol}}</label><br>
+                        <select v-model="rol" class="form-select" style="background-color: rgba(250, 250, 250, 0.59); border-radius: 12px; font-family: 'Indie Flower', cursive; font-size: 19px;" 
+                            id="rol">
                             <option value="2">Registrado</option>
                             <option value="1">Administrador</option>
                         </select>
@@ -67,6 +68,11 @@
                     <div v-if="template_object.title == 'Editar tarea'">
                         <button @click="this.close()" type="button" class="btn_new button_close" style="margin-top: 2rem; color: white;">
                         Cancelar</button>
+                    </div>
+
+                    <div v-else-if="template_object.title == 'Editar usuario'">
+                        <router-link to="/users_list" type="button" class="btn_new button_close" style="margin-top: 2rem; color: white;">
+                        Cancelar</router-link>
                     </div>
 
                     <div v-else>
@@ -177,6 +183,7 @@ export default {
 
     data() {
         return {
+            data_user: (this.template_object.data_user)? this.template_object.data_user : null,
             title: this.template_object.title,
             user_rol : (this.template_object.user_rol)? this.template_object.user_rol : null,
             user_name: (this.template_object.user_name)? this.template_object.user_name : null,

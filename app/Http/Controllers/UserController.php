@@ -163,4 +163,22 @@ class UserController extends Controller
         $request->session()->forget('user');
         $user = User::find($user_id)->delete();
     }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroyUsers(Request $request)
+    {
+        //
+        $arrayOn = $request->get('array');
+         for ($i = 0; $i < count($arrayOn); $i++) {
+            $users = User::find($arrayOn[$i]);
+            
+            $users->delete();
+        }
+        
+    }
 }

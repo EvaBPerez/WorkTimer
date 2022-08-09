@@ -23,6 +23,7 @@
                     <div v-if="user_name != null" class="mb-3">
                         <label for="inputName" class="col_form_label_new">{{user_name}} </label>
                         <input type="text" class="form_control_new" v-model="name" id="inputName" placeholder="Escribir aquí..." required pattern="\d+">
+                        
                     </div>
 
                     <div v-if="proyect_name != null" class="mb-3">
@@ -178,12 +179,24 @@ export default {
                 (error) => {
                     console.log(error.response.data);
                 })
+
+        } else if (this.template_object.title == 'Editar usuario') {
+            Axios.get(`/user_info/${this.template_object.data_user}`)
+                .then(res => {
+                    this.data_user = res.data;
+                    this.rol = (res.data[0])? res.data[0].type : res.data.type;
+                    this.email = (res.data[0])? res.data[0].email : res.data.email;
+                    this.name = (res.data[0])? res.data[0].name : res.data.name;
+                },
+                (error) => {
+                    console.log(error.response.data);
+                })
         }
     },
 
     data() {
         return {
-            data_user: (this.template_object.data_user)? this.template_object.data_user : null,
+            data_user: [],
             title: this.template_object.title,
             user_rol : (this.template_object.user_rol)? this.template_object.user_rol : null,
             user_name: (this.template_object.user_name)? this.template_object.user_name : null,
@@ -219,6 +232,10 @@ export default {
             return (this.user_token[0])? this.user_token[0]: this.user_token;
         },
 
+        getUser() {
+            return (this.data_user[0])? this.data_user[0]: this.data_user;
+        },
+
         getName() {
             return this.p_name;
         }
@@ -247,7 +264,7 @@ export default {
                         });
                     break;
 
-                case 'Registrarse':
+                case "Registrarse":
                     this.error='';
 
                     if (this.password != this.password_second) {
@@ -260,6 +277,28 @@ export default {
                             type: this.rol}).then(() => {
                                 window.location.href='/my_proyects';
 
+
+                            }, function (error) {
+                                vm.error="Error: Falta algún dato o están erróneos";
+                                console.log(error.response.data); 
+                            });
+                    }
+                    break;
+
+                case "Crear usuario":
+                    this.error='';
+
+                    if (this.password != this.password_second) {
+                        this.error = 'Las contraseñas no coinciden.'
+                    } else {
+                        Axios.post('/create_user', {
+                            name: this.name,
+                            email: this.email, 
+                            password: this.password,
+                            type: this.rol}).then(() => {
+                                window.location.href='/users_list';
+
+
                             }, function (error) {
                                 vm.error="Error: Falta algún dato o están erróneos";
                                 console.log(error.response.data); 
@@ -269,7 +308,7 @@ export default {
                     
                     break;
 
-                case 'Mis datos' || 'Editar usuario':
+                case 'Mis datos':
                     this.error='';
 
                     if (this.old_password.length != 0 && this.old_password != this.getToken.password) {
@@ -307,6 +346,26 @@ export default {
                         });
                     
                     break;
+
+
+                case 'Editar usuario':
+                    this.error='';
+                    let vm = this;
+                    
+                    Axios.post('/update_admin', {
+                        id: vm.getUser.id,
+                        name: vm.name,
+                        type: vm.rol}).then(() => {
+                            alert('Los datos se han guardado correctamente.')
+                            window.location.href='/users_list';
+
+                        }, function (error) {
+                            vm.error="Error: Falta algún dato o están erróneos";
+                            console.log(error.response.data); 
+                        });
+                    
+                    break;
+
 
                 case 'Editar proyecto':
                     if (this.p_name == '') {

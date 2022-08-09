@@ -4,6 +4,9 @@
 
         <div>
             <p class="my_title">Listado de usuarios</p>
+            <router-link to="/create_user" class="btn_new add_button" style="color: black;">
+                Añadir usuario
+            </router-link>
         </div>
 
         <table class="table_new">

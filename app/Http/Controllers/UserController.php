@@ -20,7 +20,7 @@ class UserController extends Controller
         return response()->json($user);
     }
 
-    public function use_info($id) {
+    public function userInfo($id) {
         $user = User::where('id', '=', $id)->get()->toArray();
         return response()->json($user);
     }
@@ -30,7 +30,7 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function createAdmin(Request $request)
     {
         //
         $request->validate([
@@ -49,9 +49,19 @@ class UserController extends Controller
         $user->photo = $request->get('photo');
         $user->save();
 
+        return $user;
+    }
+
+    public function create(Request $request)
+    {
+        //
+        $user = $this->createAdmin($request);
+
         $request->session()->put(['user' => $user]);
         return $request->session()->all();
     }
+
+
 
     public function login(Request $request)
     {
@@ -143,6 +153,32 @@ class UserController extends Controller
         if($user_db->password !== $user_update->password) $user_db->password = $user_update->password;
         if($user_db->type !== $user_update->type) $user_db->type = $user_update->type;
         if($user_db->photo !== $user_update->photo) $user_db->photo = $user_update->photo;
+        
+        $user_db->save();
+
+        $request->session()->put(['user' => $user_update]);
+
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateUserAdmin(Request $request)
+    {
+        //
+
+        $user_update = new User();
+        $user_update->id = $request->get('id');
+        $user_update->name = $request->get('name');
+        $user_update->type = $request->get('type');
+
+        $user_db = User::find($user_update->id);
+        if($user_db->name !== $user_update->name) $user_db->name = $user_update->name;
+        if($user_db->type !== $user_update->type) $user_db->type = $user_update->type;
         
         $user_db->save();
 

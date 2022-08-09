@@ -24,6 +24,11 @@ const router = [
     },
 
     {
+        path: '/create_user',
+        component: require('../components/CreateUser.vue').default
+    },
+
+    {
         path: '/proyect_analitic/:id',
         name: 'proyect_analitic',
         props: true,

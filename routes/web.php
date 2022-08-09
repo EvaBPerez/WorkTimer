@@ -30,6 +30,7 @@ Route::view('/edit_homework/{id}','welcome');
 Route::view('/delete/{ids}','welcome');
 Route::view('/history','welcome');
 Route::view('/users_list','welcome');
+Route::view('/create_user','welcome');
 
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProyectController;
@@ -37,12 +38,14 @@ use App\Http\Controllers\HomeworkController;
 use App\Http\Controllers\HistoryController;
 //############## Controller user ##################
 Route::post('/signup', [UserController::class, 'create']);
+Route::post('/create_user', [UserController::class, 'createAdmin']);
 Route::get('/all_users', [UserController::class, 'index']);
 Route::get('/token', [UserController::class, 'show']);
 Route::post('/login', [UserController::class, 'login']);
 Route::post('/logout', [UserController::class, 'logout']);
 Route::post('/update', [UserController::class, 'update']);
-Route::get('/user_info', [UserController::class, 'user_info']);
+Route::post('/update_admin', [UserController::class, 'updateUserAdmin']);
+Route::get('/user_info/{id}', [UserController::class, 'userInfo']);
 Route::post('/delete_user', [UserController::class, 'destroy']);
 Route::post('/delete_users', [UserController::class, 'destroyUsers']);
 

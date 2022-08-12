@@ -2,9 +2,21 @@
 
     <div class="container">
         <p class="my_title">Mis Tareas: {{proyect.name}}</p>
-        <button class="btn_new add_button" data-bs-toggle="modal" data-bs-target="#add_homework">
-            Añadir tarea
-        </button>
+
+        <div class="row">
+            <div class="col">
+                <button class="btn_new add_button" data-bs-toggle="modal" data-bs-target="#add_homework">
+                    Añadir tarea
+                </button>
+            </div>
+
+            <div class="col-3">
+                <div class="form-inline my-2 my-lg-0 input-icons">  
+                    <i class="bi bi-search" style="color: grey;"></i>
+                    <input style="border-radius: 10px;" class="form-control mr-sm-2 input-field" id="search_homework" type="text" v-model="search_homework" placeholder="Buscar..." aria-label="Search">
+                </div> 
+            </div>
+        </div>
     </div>
 
 
@@ -45,8 +57,8 @@
     </div>
 
 
-    <div class="container_fluid_new">
-        <div v-for="id in getIds" :homework="id">
+    <div class="container_fluid_new" v-if="search!='not'">
+        <div v-for="id in search" :homework="id">
             <homework @loadHomework="loadHomework" :homework.sync="id"></homework>
         </div>
     </div>
@@ -95,7 +107,8 @@ export default {
             name: '',
             color: "#ffffff",
             aux: 0,
-            user_token: []
+            user_token: [],
+            search_homework: ''
         }
     }, 
 
@@ -106,6 +119,22 @@ export default {
 
          getToken() {
             return (this.user_token[0])? this.user_token[0]: this.user_token;
+        },
+
+        search(){
+            if(this.search_homework){
+                var homework_search = [];
+
+                for (let i = 0; i < this.getIds.length; i++) {
+                    if(this.getIds[i].name == this.search_homework || this.getIds[i].name.includes(this.search_homework) ){
+                        homework_search.push(this.getIds[i]);
+                    }                     
+                }
+                return (homework_search.length > 0)? homework_search : 'not';
+
+            }else{
+                return this.getIds;
+            }
         }
     },
 

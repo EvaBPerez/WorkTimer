@@ -4,24 +4,44 @@
 
         <div>
             <p class="my_title">Listado de usuarios</p>
-            <router-link to="/create_user" class="btn_new add_button" style="color: black;">
-                Añadir usuario
-            </router-link>
+            <div class="row">
+                <div class="col">
+                    <router-link to="/create_user" class="btn_new add_button" style="color: black;">
+                        Añadir usuario
+                    </router-link>
+                </div>
+
+                <div class="col-3">
+                    <div class="form-inline my-2 my-lg-0 input-icons">  
+                        <i class="bi bi-search" style="color: grey;"></i>
+                        <input class="form-control mr-sm-2 input-field" id="search_user" type="text" v-model="search_user" placeholder="Buscar..." aria-label="Search">
+                    </div> 
+                </div>
+            </div>
+            
+
+            
         </div>
 
-        <table class="table_new">
+        <table class="table_new body_table">
                 <tr>
                     <th style="border-radius: 10px 0 0 0;"><input @click="this.allChecked()" class="form-check-input" type="checkbox" id="all_check" style="margin-left: 0.7rem; border-bottom-width: 0.25px;"></th>
                     <th>Nombre de usuario</th>
+                    <th>Email</th>
                     <th style="border-radius: 0 10px 0 0;">Editar</th>
                 </tr>
 
-            
-            <tr v-for="id in getUsers">
+                <tbody v-if="search!='not'">
+                    <tr v-for="id in search">
                     <td style="border-radius: 10px 0 0 10px;"><input class="form-check-input all_items" type="checkbox" style="margin-left: 0.7rem; border-bottom-width: 0.25px;" v-bind:id="id.id" ></td>
+                    <td>{{id.name}}</td>
                     <td>{{id.email}}</td>
                     <td style="border-radius: 0 10px 10px 0;"><router-link :to="{name: 'edit_user_admin', params: {id: id.id}}"><i class="bi bi-pencil-square"></i></router-link></td>
                 </tr>
+                </tbody>
+                
+         
+            
         </table>
 
         <button class="btn_new add_button" data-bs-toggle="modal" data-bs-target="#delete_users">
@@ -86,7 +106,8 @@ export default {
     data() {
         return {
             user: [],
-            data_users: []
+            data_users: [],
+            search_user: ''
         }
     },
 
@@ -97,6 +118,22 @@ export default {
 
         getUsers() {
             return this.data_users;
+        },
+
+        search(){
+            if(this.search_user){
+                var users_search = [];
+
+                for (let i = 0; i < this.getUsers.length; i++) {
+                    if(this.getUsers[i].name == this.search_user || this.getUsers[i].name.includes(this.search_user) ){
+                        users_search.push(this.getUsers[i]);
+                    }                     
+                }
+                return (users_search.length > 0)? users_search : 'not';
+
+            }else{
+                return this.getUsers;
+            }
         }
     },
 

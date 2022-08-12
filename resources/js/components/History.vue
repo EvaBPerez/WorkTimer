@@ -2,7 +2,18 @@
     <div class="container">
 
         <div>
-            <p class="my_title">Historial de tiempos</p>
+            <div class="row">
+                <div class="col">
+                    <p class="my_title">Historial de tiempos</p>
+                </div>
+
+                <div class="col-3">
+                    <div class="my-2 my-lg-0 input-icons">  
+                        <i class="bi bi-calendar"></i>
+                        <input style="border-radius: 10px;" class="form-control mr-sm-2 input-field" id="search_history" type="date" v-model="search_history" placeholder="Buscar..." aria-label="Search">
+                    </div> 
+                </div>
+            </div>
         </div>
 
         <table class="table_new">
@@ -14,14 +25,16 @@
                     <th style="border-radius: 0 10px 0 0;">Nombre de la tarea</th>
                 </tr>
 
-            
-            <tr v-for="id in getHistory">
+            <tbody v-if="search!='not'">
+                <tr v-for="id in search">
                     <td style="border-radius: 10px 0 0 10px;"><input class="form-check-input all_items" type="checkbox" style="margin-left: 0.7rem; border-bottom-width: 0.25px;" v-bind:id="id.id" ></td>
                     <td>{{this.formatTime(id.created_at)}}</td>
                     <td>{{this.secondsToString(id.time)}}</td>
                     <td>{{id.proyect_name}}</td>
                     <td style="border-radius: 0 10px 10px 0;">{{id.homework_name}}</td>
                 </tr>
+            </tbody>
+            
         </table>
 
         <button class="btn_new add_button" data-bs-toggle="modal" data-bs-target="#delete_history">
@@ -90,6 +103,7 @@ export default {
         return {
             user: [],
             data_history: [],
+            search_history: ''
         }
     },
 
@@ -100,6 +114,23 @@ export default {
 
         getHistory() {
             return this.data_history;
+        },
+
+        search(){
+            if(this.search_history){
+                
+                var history_search = [];
+
+                for (let i = 0; i < this.getHistory.length; i++) {
+                    if(this.getHistory[i].created_at.substring(0, 10) == this.search_history){
+                        history_search.push(this.getHistory[i]);
+                    }                     
+                }
+                return (history_search.length > 0)? history_search : 'not';
+
+            }else{
+                return this.getHistory;
+            }
         }
     },
 

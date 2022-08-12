@@ -18,7 +18,7 @@
     vertical-align: bottom;
 }
 
-.body_table, td {
+td {
     background: #EDE3C1;
     color: #212529;
     padding: 1rem;
@@ -41,10 +41,9 @@ th {
     padding: 0.5rem;
 }
 
-tr {
-    border-radius:10px;
-    -moz-border-radius:10px;
-    -webkit-border-radius: 10px;
+.input-wrapper {
+	position: relative;
+	width: 271px;
 }
 
 
@@ -68,18 +67,15 @@ tr {
   }
   .table_new > :not(caption) > * > * {
     padding: 0.5rem 0.5rem;
-    border-bottom-width: 5px;
-    box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg);
-    border-radius: 7px;
+    border-bottom-width: 3px;
   }
   .table_new > tbody {
-    vertical-align: inherit;
+    border-color: rgba(234, 205, 170);
+    margin-bottom: 1rem;
+    background-color: rgba(234, 205, 170);
   }
   .table_new > thead {
     vertical-align: bottom;
-  }
-  .table_new > :not(:first-child) {
-    border-top: 3px solid currentColor;
   }
 
 .bi-star:before, .bi-star-fill:before {
@@ -464,3 +460,38 @@ info_analitic {
 .button_avatar:hover {
     cursor: pointer;
 }
+
+
+
+.input-icons i {
+    position: absolute;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+.input-icons {
+    width: 100%;
+    margin-bottom: 5px;
+}
+  
+.icon {
+    padding: 10px;
+    min-width: 40px;
+}
+  
+.input-field {
+    width: 90%;
+    padding-left: 2rem !important;
+    text-align: left;
+    font-family: 'Indie Flower';
+}
+
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 0 !important;
+    width: 100vw;
+    height: 100vh;
+    background-color: transparent !important;
+  }

@@ -1,9 +1,22 @@
 <template>
     <div class="container">
         <p class="my_title">Mis proyectos</p>
-        <button class="btn_new add_button" data-bs-toggle="modal" data-bs-target="#add_proyect">
-            Añadir proyecto
-        </button>
+        
+
+        <div class="row">
+            <div class="col">
+                <button class="btn_new add_button" data-bs-toggle="modal" data-bs-target="#add_proyect">
+                    Añadir proyecto
+                </button>
+            </div>
+
+            <div class="col-3">
+                <div class="form-inline my-2 my-lg-0 input-icons">  
+                    <i class="bi bi-search" style="color: grey;"></i>
+                    <input style="border-radius: 10px;" class="form-control mr-sm-2 input-field" id="search_proyect" type="text" v-model="search_proyect" placeholder="Buscar..." aria-label="Search">
+                </div> 
+            </div>
+        </div>
     </div>
 
     <div v-show="show_modal" class="modal fade" style="background-color: rgb(236, 243, 244, 0.562);" id="add_proyect" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -41,8 +54,8 @@
 
     </div>
 
-    <div class="container_fluid_new">
-        <div v-for="id in getIds" :proyect="id">
+    <div class="container_fluid_new" v-if="search!='not'">
+        <div v-for="id in search" :proyect="id">
             <proyect @loadProyect="loadProyect" :proyect.sync="id"></proyect>  
             <!-- el @loadProyect="loadProyect" es para recibir el evento del componete hijo "proyect"-->
         </div>
@@ -84,7 +97,8 @@ export default {
             ids: [],
             user_token: [],
             aux: 0,
-            show_modal: false
+            show_modal: false,
+            search_proyect: ''
         }
     }, 
 
@@ -95,6 +109,23 @@ export default {
 
         getToken() {
             return (this.user_token[0])? this.user_token[0]: this.user_token;
+        },
+
+        search(){
+            if(this.search_proyect){
+                var proyect_search = [];
+
+                for (let i = 0; i < this.getIds.length; i++) {
+                    if(this.getIds[i].name == this.search_proyect || this.getIds[i].name.includes(this.search_proyect) ){
+                        proyect_search.push(this.getIds[i]);
+                    }                     
+                }
+                
+                return (proyect_search.length > 0)? proyect_search : 'not';
+
+            }else{
+                return this.getIds;
+            }
         }
     }, 
 

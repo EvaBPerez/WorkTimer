@@ -131,10 +131,10 @@ class HistoryController extends Controller
             $proyect->count = $proyect->count - 1;
             if ($history->productivity == 1) { //es productivo
                 $homework->time_product = $homework->time_product - $history->time;
-                $proyect->time_product = $proyect->time_product - $proyect->time;
+                $proyect->time_product = $proyect->time_product - $history->time;
             } else if ($history->productivity == 3) { //es productivo
                 $homework->time_improduct = $homework->time_improduct - $history->time;
-                $proyect->time_improduct = $proyect->time_improduct - $proyect->time;
+                $proyect->time_improduct = $proyect->time_improduct - $history->time;
             }
 
             $homework->save();

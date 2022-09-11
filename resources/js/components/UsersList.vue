@@ -1,82 +1,87 @@
 <template>
+    <div v-if="getToken.type == 1">
+        <div class="container">
 
-    <div class="container">
+            <div>
+                <p class="my_title">Listado de usuarios</p>
+                <div class="row">
+                    <div class="col">
+                        <router-link to="/create_user" class="btn_new add_button" style="color: black;">
+                            Añadir usuario
+                        </router-link>
+                    </div>
 
-        <div>
-            <p class="my_title">Listado de usuarios</p>
-            <div class="row">
-                <div class="col">
-                    <router-link to="/create_user" class="btn_new add_button" style="color: black;">
-                        Añadir usuario
-                    </router-link>
+                    <div class="col-3">
+                        <div class="form-inline my-2 my-lg-0 input-icons">  
+                            <i class="bi bi-search" style="color: grey;"></i>
+                            <input style="border-radius: 10px;" class="form-control mr-sm-2 input-field" id="search_user" type="text" v-model="search_user" placeholder="Buscar..." aria-label="Search">
+                        </div> 
+                    </div>
                 </div>
-
-                <div class="col-3">
-                    <div class="form-inline my-2 my-lg-0 input-icons">  
-                        <i class="bi bi-search" style="color: grey;"></i>
-                        <input class="form-control mr-sm-2 input-field" id="search_user" type="text" v-model="search_user" placeholder="Buscar..." aria-label="Search">
-                    </div> 
-                </div>
-            </div>
-            
-
-            
-        </div>
-
-        <table class="table_new body_table">
-                <tr>
-                    <th style="border-radius: 10px 0 0 0;"><input @click="this.allChecked()" class="form-check-input" type="checkbox" id="all_check" style="margin-left: 0.7rem; border-bottom-width: 0.25px;"></th>
-                    <th>Nombre de usuario</th>
-                    <th>Email</th>
-                    <th style="border-radius: 0 10px 0 0;">Editar</th>
-                </tr>
-
-                <tbody v-if="search!='not'">
-                    <tr v-for="id in search">
-                    <td style="border-radius: 10px 0 0 10px;"><input class="form-check-input all_items" type="checkbox" style="margin-left: 0.7rem; border-bottom-width: 0.25px;" v-bind:id="id.id" ></td>
-                    <td>{{id.name}}</td>
-                    <td>{{id.email}}</td>
-                    <td style="border-radius: 0 10px 10px 0;"><router-link :to="{name: 'edit_user_admin', params: {id: id.id}}"><i class="bi bi-pencil-square"></i></router-link></td>
-                </tr>
-                </tbody>
                 
-         
-            
-        </table>
 
-        <button class="btn_new add_button" data-bs-toggle="modal" data-bs-target="#delete_users">
-            Eliminar
-        </button>
-
-        <div v-show="show_modal" class="modal fade" style="background-color: rgb(236, 243, 244, 0.562);" id="delete_users" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" style="position: relative;">
-                <div class="modal_content_new">
-                    <div class="modal_header_new">
-                        <h5 class="modal-title my_title" id="exampleModalLabel">Eliminar usuario(s)</h5>
-                    </div>
-                    
-                    <div class="modal-body">
-                        <form>
-                            <div class="mb-3">
-                                <label for="color-card" class="col_form_label_new" style="color:red;">¿Estás seguro de que deseas <span style="color: #731010;">eliminar estos usuarios</span>? No podrás recuperarlos. </label>
-                            </div>
-                        </form>
-                    </div>
-
-                    <div class="row_new">
-                        <div class="col-6">
-                            <button type="button" class="btn_new button_close" data-bs-dismiss="modal" id="close">Cancelar</button>
-                        </div>
-
-                        <div class="col-6">
-                            <button @click="this.deleteUsers()" type="button" class="btn_new button_acept">Aceptar </button>
-                        </div>
-                    </div>
-                    
-                </div>
+                
             </div>
 
+            <table class="table_new body_table">
+                    <tr>
+                        <th style="border-radius: 10px 0 0 0;"><input @click="this.allChecked()" class="form-check-input" type="checkbox" id="all_check" style="margin-left: 0.7rem; border-bottom-width: 0.25px;"></th>
+                        <th>Nombre de usuario</th>
+                        <th>Email</th>
+                        <th style="border-radius: 0 10px 0 0;">Editar</th>
+                    </tr>
+
+                    <tbody v-if="search!='not'">
+                        <tr v-for="id in search">
+                        <td style="border-radius: 10px 0 0 10px;"><input class="form-check-input all_items" type="checkbox" style="margin-left: 0.7rem; border-bottom-width: 0.25px;" v-bind:id="id.id" ></td>
+                        <td>{{id.name}}</td>
+                        <td>{{id.email}}</td>
+                        <td style="border-radius: 0 10px 10px 0;"><router-link :to="{name: 'edit_user_admin', params: {id: id.id}}"><i class="bi bi-pencil-square"></i></router-link></td>
+                    </tr>
+                    </tbody>
+                    
+            
+                
+            </table>
+
+            <button class="btn_new add_button" data-bs-toggle="modal" data-bs-target="#delete_users">
+                Eliminar
+            </button>
+
+            <div v-show="show_modal" class="modal fade" style="background-color: rgb(236, 243, 244, 0.562);" id="delete_users" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" style="position: relative;">
+                    <div class="modal_content_new">
+                        <div class="modal_header_new">
+                            <h5 class="modal-title my_title" id="exampleModalLabel">Eliminar usuario(s)</h5>
+                        </div>
+                        
+                        <div class="modal-body">
+                            <form>
+                                <div class="mb-3">
+                                    <label for="color-card" class="col_form_label_new" style="color:red;">¿Estás seguro de que deseas <span style="color: #731010;">eliminar estos usuarios</span>? No podrás recuperarlos. </label>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="row_new">
+                            <div class="col-6">
+                                <button type="button" class="btn_new button_close" data-bs-dismiss="modal" id="close">Cancelar</button>
+                            </div>
+
+                            <div class="col-6">
+                                <button @click="this.deleteUsers()" type="button" class="btn_new button_acept">Aceptar </button>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+
+            </div>
         </div>
+    </div>
+
+    <div v-else>
+        alsjdkfo
     </div>
 
 </template>

@@ -2,9 +2,10 @@
     <div class="container">
 
         <div>
+            <p class="my_title">Historial de tiempos</p>
             <div class="row">
                 <div class="col">
-                    <p class="my_title">Historial de tiempos</p>
+                    
                 </div>
 
                 <div class="col-3">

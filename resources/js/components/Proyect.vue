@@ -92,7 +92,7 @@ export default {
 
     methods: {
         mostrar() {
-            let pro = document.getElementById(this.id_proyect);
+            /*let pro = document.getElementById(this.id_proyect);
             pro.style.setProperty("background-image", "url('../images/broke.png')");
             pro.style.setProperty("background-size", "15rem auto");
             pro.style.setProperty("box-shadow", "0px 0px 15px 15px #ec731e");
@@ -109,11 +109,11 @@ export default {
                         .map(animation => animation.finished)
             ).then(() => 
             this.deleteProyect()
-            );
+            );*/
 
             
             
-            // window.setTimeout(this.deleteProyect, 1500);
+             window.setTimeout(this.deleteProyect, 1500);
         },
 
         deleteProyect() {

@@ -22,27 +22,34 @@ class HistoryController extends Controller
             ->select('history.id', 'history.time', 'history.created_at', 'proyect.name as proyect_name', 'homework.name as homework_name')
             ->where('history.user_id', '=', $id)
             ->crossJoin('proyect', 'proyect.id', '=', 'history.proyect_id')
-            ->crossJoin('homework', 'homework.id', '=', 'history.homework_id')->get();
+            ->crossJoin('homework', 'homework.id', '=', 'history.homework_id')
+            ->orderBy('created_at', 'desc')->get();
         return response()->json($history);
     }
 
-    public function graphicDays($id) {
-        $day = date("Y-m-d h:m:s");
+    public function graphicDaysProyect($id) {
+        $day_start = date("Y-m-d h:m:s");
+        $day = date("Y-m-d h:m:s", strtotime(date("Y-m-d h:m:s")."+ 1 days"));
         $day1 = date("Y-m-d h:m:s", strtotime(date("Y-m-d h:m:s")."- 14 days"));
+
         $history = DB::table('history')
             ->where('history.proyect_id', '=', $id)
             ->where('history.created_at', '<=', $day)
-            ->where('history.created_at', '>=', $day1)->get();
+            ->where('history.created_at', '>=', $day1)
+            ->orderBy('created_at', 'asc')->get();
         return response()->json($history);
     }
 
-    public function graphicWeek($id) {
-        $day = date("Y-m-d h:m:s");
-        $day1 = date("Y-m-d h:m:s", strtotime(date("Y-m-d h:m:s")."- 7 days"));
+    public function graphicDaysHomework($id) {
+        $day_start = date("Y-m-d h:m:s");
+        $day = date("Y-m-d h:m:s", strtotime(date("Y-m-d h:m:s")."+ 1 days"));
+        $day1 = date("Y-m-d h:m:s", strtotime(date("Y-m-d h:m:s")."- 14 days"));
+
         $history = DB::table('history')
-            ->where('history.proyect_id', '=', $id)
+            ->where('history.homework_id', '=', $id)
             ->where('history.created_at', '<=', $day)
-            ->where('history.created_at', '>=', $day1)->get();
+            ->where('history.created_at', '>=', $day1)
+            ->orderBy('created_at', 'asc')->get();
         return response()->json($history);
     }
 

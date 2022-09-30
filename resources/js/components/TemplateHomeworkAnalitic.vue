@@ -23,15 +23,75 @@
             </div>
         </div>
     </div>
+
+    <div class="graphic">
+        <canvas id="chartDayHomework" ></canvas>
+    </div>
 </template>
 
 <script>
+    import Axios from 'axios';
+    import Chart from "chart.js/auto";
+
 export default {
 
     props: ['homework'],
 
      beforeUpdate() {
         this.reload();
+
+        Axios.get(`/graphic_day_homework/${this.homework.id}`)
+        .then(respo => {
+            let aux = 0;
+            for (let i = 0; i < respo.data.length; i++) {
+                if (i == 0) {
+                    this.stock.push(parseInt(respo.data[i].time));
+                    if (respo.data[i].productivity == 1) {
+                        this.productivity.push(parseInt(respo.data[i].time));
+
+                    } else {
+                        this.productivity.push(0);
+                    }
+                    
+                } else {
+                    if (respo.data[i].created_at.substring(0, 10) == respo.data[i-1].created_at.substring(0, 10)) {
+                        this.stock[aux] += parseInt(respo.data[i].time);
+                        if (respo.data[i].productivity == 1) {
+                            this.productivity[aux] += parseInt(respo.data[i].time);
+                        }
+
+                    } else {
+                        let first = new Date(respo.data[i].created_at.substring(0, 10));
+                        let second = new Date(respo.data[i-1].created_at.substring(0, 10));
+
+                        let diference = Math.floor((first - second) / (1000 * 60 * 60 * 24));
+
+                        while (diference > 1) {
+                            this.stock.push(0);
+                            this.productivity.push(0);
+                            aux++;
+                            diference--;
+                        }
+
+                        this.stock.push(parseInt(respo.data[i].time));
+                        if (respo.data[i].productivity == 1) {
+                            this.productivity.push(parseInt(respo.data[i].time));
+
+                        } else {
+                            this.productivity.push(0);
+                        }
+                        aux++;
+                        
+                    }
+                }
+                
+            }
+
+            this.selectDay();  
+            },
+            (error) => {
+                console.log(error.response.data);
+            })
     },
 
     data() {
@@ -52,7 +112,11 @@ export default {
                 {title: 'Tiempo improductivo',
                 time: '0 %',
                 help: 'Porcentaje del tiempo improductivo dedicado a la tarea'}
-                ]
+                ],
+
+            stock: [],
+            productivity: [],
+            label_day: ['L', 'M', 'X', 'J', 'V', 'S', 'D', 'L', 'M', 'X', 'J', 'V', 'S', 'D']
         }
     },
 
@@ -84,6 +148,49 @@ export default {
                 this.index[2].time = this.secondsToString(Math.round(this.homework.total_time/ this.homework.count));
                 this.index[3].time = Math.round(this.homework.time_improduct * 100 / this.homework.total_time) + " %";
             }
+        },
+
+        selectDay() {
+            this.loadGraphic(this.productivity, this.stock, this.label_day, "#chartDayHomework");
+        }, 
+
+        loadGraphic(productivity, stock, label, chart_id) {
+            var myChart = new Chart(document.querySelector(chart_id), {
+                type: 'bar', 
+                data: {
+                    labels: label,
+                    datasets: [{
+                        label: 'Horas trabajadas',
+                        data: stock,
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+
+                        borderColor: 'rgba(75, 192, 192, 1)',
+
+                        borderWidth: 1
+                    }, 
+                    {
+                        label: 'Horas productivas',
+                        data: productivity,
+                        backgroundColor: 'rgba(75, 192, 192, 1)',
+
+                        borderColor: 'rgba(75, 192, 192, 1)',
+
+                        borderWidth: 1
+                    }]
+                },
+
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: {
+                            stacked: true,
+                        },
+                        y: {
+                            stacked: false
+                        }
+                    }
+                }
+            });
         }
 
     }

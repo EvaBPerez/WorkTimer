@@ -31,6 +31,9 @@
         "bootstrap-icons": "^1.8.3",
         "chart.js": "^3.9.1",
         "dr-vue-echarts": "^1.0.14",
+        "echarts": "^5.4.0",
+        "vue-chartjs": "^4.1.2",
+        "vue-echarts": "^6.2.3",
         "vue-router": "^4.0.15",
         "vuex": "^4.0.2"
     }

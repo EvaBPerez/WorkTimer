@@ -70,6 +70,7 @@ Route::get('/delete_h/{ids}', [HomeworkController::class, 'destroy']);
 Route::post('/add_history', [HistoryController::class, 'create']);
 Route::post('/update_history', [HistoryController::class, 'update']);
 Route::get('/all_history/{id}', [HistoryController::class, 'index']);
-Route::get('/graphic_day/{id}', [HistoryController::class, 'graphicDays']);
+Route::get('/graphic_day_proyect/{id}', [HistoryController::class, 'graphicDaysProyect']);
+Route::get('/graphic_day_homework/{id}', [HistoryController::class, 'graphicDaysHomework']);
 Route::get('/crono_on/{id}', [HistoryController::class, 'show']);
 Route::post('/delete_hy', [HistoryController::class, 'destroy']);

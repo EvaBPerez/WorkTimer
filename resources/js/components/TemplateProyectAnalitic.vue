@@ -25,8 +25,8 @@
         </div>
     </div>
 
-    <div>
-        <canvas id="myChart" width="400" height="400"></canvas>
+    <div class="graphic">
+        <canvas id="chartDayProject" ></canvas>
     </div>
 
     
@@ -42,12 +42,52 @@ export default {
     beforeMount() {
         this.reloadProyect();
 
-        Axios.get(`/graphic_day/${this.proyect.id}`)
+        Axios.get(`/graphic_day_proyect/${this.proyect.id}`)
         .then(respo => {
-            console.log(respo.data[0]);
-            respo.data.forEach(element => {
-                this.stock.push(parseInt(element.time));
-            })
+            let aux = 0;
+            for (let i = 0; i < respo.data.length; i++) {
+                if (i == 0) {
+                    this.stock.push(parseInt(respo.data[i].time));
+                    if (respo.data[i].productivity == 1) {
+                        this.productivity.push(parseInt(respo.data[i].time));
+
+                    } else {
+                        this.productivity.push(0);
+                    }
+                    
+                } else {
+                    if (respo.data[i].created_at.substring(0, 10) == respo.data[i-1].created_at.substring(0, 10)) {
+                        this.stock[aux] += parseInt(respo.data[i].time);
+                        if (respo.data[i].productivity == 1) {
+                            this.productivity[aux] += parseInt(respo.data[i].time);
+                        }
+
+                    } else {
+                        let first = new Date(respo.data[i].created_at.substring(0, 10));
+                        let second = new Date(respo.data[i-1].created_at.substring(0, 10));
+
+                        let diference = Math.floor((first - second) / (1000 * 60 * 60 * 24));
+
+                        while (diference > 1) {
+                            this.stock.push(0);
+                            this.productivity.push(0);
+                            aux++;
+                            diference--;
+                        }
+
+                        this.stock.push(parseInt(respo.data[i].time));
+                        if (respo.data[i].productivity == 1) {
+                            this.productivity.push(parseInt(respo.data[i].time));
+
+                        } else {
+                            this.productivity.push(0);
+                        }
+                        aux++;
+                        
+                    }
+                }
+                
+            }
 
             this.selectDay();  
             },
@@ -55,11 +95,6 @@ export default {
                 console.log(error.response.data);
             })
 
-    },
-
-    mounted() { 
-        console.log(this.stock);
-        
     },
 
     props: ['proyect'],
@@ -84,8 +119,9 @@ export default {
                 help: 'Porcentaje del tiempo improductivo dedicado al proyecto'}
                 ],
 
-            legend: [],
-            stock: []
+            stock: [],
+            productivity: [],
+            label_day: ['L', 'M', 'X', 'J', 'V', 'S', 'D', 'L', 'M', 'X', 'J', 'V', 'S', 'D']
         }
     },
 
@@ -120,19 +156,17 @@ export default {
         }, 
 
         selectDay() {
-            
-
-            this.loadGraphic();
+            this.loadGraphic(this.productivity, this.stock, this.label_day, "#chartDayProject");
         }, 
 
-        loadGraphic() {
-            var myChart = new Chart(document.querySelector("#myChart"), {
+        loadGraphic(productivity, stock, label, chart_id) {
+            var myChart = new Chart(document.querySelector(chart_id), {
                 type: 'bar', 
                 data: {
-                    labels: ['L', 'M', 'X', 'J', 'V', 'S', 'D', 'L', 'M', 'X', 'J', 'V', 'S', 'D'],
+                    labels: label,
                     datasets: [{
                         label: 'Horas trabajadas',
-                        data: this.stock,
+                        data: stock,
                         backgroundColor: 'rgba(75, 192, 192, 0.2)',
 
                         borderColor: 'rgba(75, 192, 192, 1)',
@@ -141,7 +175,7 @@ export default {
                     }, 
                     {
                         label: 'Horas productivas',
-                        data: [5, 6, 4, 5],
+                        data: productivity,
                         backgroundColor: 'rgba(75, 192, 192, 1)',
 
                         borderColor: 'rgba(75, 192, 192, 1)',

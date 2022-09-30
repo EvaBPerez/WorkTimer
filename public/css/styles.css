@@ -495,3 +495,14 @@ info_analitic {
     height: 100vh;
     background-color: transparent !important;
   }
+
+.graphic {
+    height: auto; 
+    width: 80%; 
+    background-color: #fffef4; 
+    border-radius: 10px; 
+    margin-left: 10%; 
+    margin-right: 10%; 
+    margin-top: 5rem; 
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}

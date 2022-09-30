@@ -26,6 +26,26 @@ class HistoryController extends Controller
         return response()->json($history);
     }
 
+    public function graphicDays($id) {
+        $day = date("Y-m-d h:m:s");
+        $day1 = date("Y-m-d h:m:s", strtotime(date("Y-m-d h:m:s")."- 14 days"));
+        $history = DB::table('history')
+            ->where('history.proyect_id', '=', $id)
+            ->where('history.created_at', '<=', $day)
+            ->where('history.created_at', '>=', $day1)->get();
+        return response()->json($history);
+    }
+
+    public function graphicWeek($id) {
+        $day = date("Y-m-d h:m:s");
+        $day1 = date("Y-m-d h:m:s", strtotime(date("Y-m-d h:m:s")."- 7 days"));
+        $history = DB::table('history')
+            ->where('history.proyect_id', '=', $id)
+            ->where('history.created_at', '<=', $day)
+            ->where('history.created_at', '>=', $day1)->get();
+        return response()->json($history);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -73,6 +93,12 @@ class HistoryController extends Controller
     public function show($id)
     {
         //
+        $history = DB::table('history')
+            ->where('user_id', '=', $id)
+            ->where('productivity', '=', NULL)
+            ->get();
+        return response()->json($history);
+        
     }
 
     /**

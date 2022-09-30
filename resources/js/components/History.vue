@@ -85,7 +85,6 @@ export default {
         Axios.get('/token')
             .then((res) => {
                 this.user = res.data;
-                console.log(res.data);
 
                 Axios.get(`/all_history/${(res.data[0])? res.data[0].id: res.data.id}`)
                     .then((respo) => {

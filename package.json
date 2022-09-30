@@ -29,6 +29,8 @@
         "@vue/compiler-sfc": "^3.2.36",
         "autoprefixer": "10.4.5",
         "bootstrap-icons": "^1.8.3",
+        "chart.js": "^3.9.1",
+        "dr-vue-echarts": "^1.0.14",
         "vue-router": "^4.0.15",
         "vuex": "^4.0.2"
     }

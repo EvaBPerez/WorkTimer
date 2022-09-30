@@ -117,7 +117,7 @@
 
                         
 
-                        <div class="row_new">
+                        <div class="row_new" style="margin-top: 2rem;">
                             <div class="col-6">
                                 <button type="button" @click="this.clearInfo()" class="btn_new button_close" data-bs-dismiss="modal" id="close_crono">Cancelar</button>
                             </div>
@@ -216,6 +216,18 @@ export default {
         Axios.get('/token')
             .then((res) => {
                 this.user_token = res.data;
+
+                Axios.get(`/crono_on/${(res.data[0])? res.data[0].id : res.data.id}`)
+                .then( respo => {
+                    if (respo.data.length != 0) {
+                        this.crono_on = true;
+                        this.history_id = (respo.data[0])? respo.data[0].id : respo.data.id;
+                        this.proyect_id = (respo.data[0])? respo.data[0].proyect_id : respo.data.proyect_id;
+                        this.homework_id = (respo.data[0])? respo.data[0].homework_id : respo.data.homework_id;
+                        this.pending_crono = (respo.data[0])? respo.data[0].created_at : respo.data.created_at;
+                        this.writeCrono();
+                    }
+                }) 
             },
             (error) => {
                 console.log(error.response.data);
@@ -233,13 +245,11 @@ export default {
             homework_id: 'F',
             crono_on: false, 
             aceptar_crono: false,
-            h: 0,
-            m: 0,
-            s: 0,
             crono_time: '',
             productivity: null,
             history_id: 0,
-            seg: 0
+            seg: 0,
+            pending_crono: ""
         }
     },
 
@@ -293,6 +303,9 @@ export default {
                         .then((res) => {
                             this.history_id = res.data.id;
                             this.crono_on = true;
+                            let crono_actual = (res.data[0])? res.data[0].created_at : res.data.created_at;
+                            this.pending_crono = crono_actual.replaceAll('T', ' ').substring(0, 19);
+                            console.log(this.pending_crono);
                             document.getElementById('close_crono').click();
                             this.initCrono();
                         },
@@ -322,9 +335,6 @@ export default {
         },
 
         initCrono() {
-            this.h = 0;
-            this.m = 0;
-            this.s = 0;
             this.seg = 0;
             this.crono_time="00 : 00 : 00";
             this.updateCrono();
@@ -335,24 +345,27 @@ export default {
         }, 
 
         writeCrono() {
-            let hAux, mAux, sAux;
-            this.s++;
-            this.seg++;
-            if (this.s > 59) {this.m++; this.s = 0;}
-            if (this.m > 59) {this.h++; this.m = 0;}
-            if (this.h > 24) {this.h = 0;}
+            let hora_actual = new Date().toISOString().replaceAll('T', ' ').substring(0, 19);
+            this.seg = (new Date(hora_actual).getTime() - new Date(this.pending_crono).getTime()) / 1000;
+            this.crono_time = this.secondsToString((new Date(hora_actual).getTime() - new Date(this.pending_crono).getTime()) / 1000);
 
-            (this.s < 10)? sAux = "0" + this.s : sAux = this.s;
-            (this.m < 10)? mAux = "0" + this.m : mAux = this.m;
-            (this.h < 10)? hAux = "0" + this.h : hAux = this.h;
-
-            this.crono_time = hAux + " : " + mAux + " : " + sAux; 
 
             if (!this.aceptar_crono) {
                 this.updateCrono();
             } else {
                 this.stopCrono();
             }
+            
+        },
+
+        secondsToString(seconds) {
+            var hour = Math.floor(seconds / 3600);
+            hour = (hour < 10)? '0' + hour : hour;
+            var minute = Math.floor((seconds / 60) % 60);
+            minute = (minute < 10)? '0' + minute : minute;
+            var second = seconds % 60;
+            second = (second < 10)? '0' + second : second;
+            return hour + ' : ' + minute + ' : ' + second;
             
         },
 
@@ -393,8 +406,7 @@ export default {
                         }).then(() => {
                             document.getElementById('close_crono').click();
                             this.proyect_id = 'F';
-                             this.homework_id = 'F';
-
+                            this.homework_id = 'F';
                             //hacemos que se actualicen las estadísticas
                             
                         }, function(error) {

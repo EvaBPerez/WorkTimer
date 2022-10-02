@@ -27,8 +27,20 @@ class HistoryController extends Controller
         return response()->json($history);
     }
 
+    public function recentHomework($id)
+    {
+        //
+        $history = DB::table('history')
+            ->select('history.created_at', 'project.name as project_name', 'history.project_id', 'homework.name as homework_name', 'history.homework_id')
+            ->where('history.user_id', '=', $id)
+            ->crossJoin('project', 'project.id', '=', 'history.project_id')
+            ->crossJoin('homework', 'homework.id', '=', 'history.homework_id')
+            ->orderBy('created_at', 'desc')
+            ->distinct('homework_id')->take(3)->get();
+        return response()->json($history);
+    }
+
     public function graphicDaysProject($id) {
-        $day_start = date("Y-m-d h:m:s");
         $day = date("Y-m-d h:m:s", strtotime(date("Y-m-d h:m:s")."+ 1 days"));
         $day1 = date("Y-m-d h:m:s", strtotime(date("Y-m-d h:m:s")."- 14 days"));
 
@@ -41,7 +53,6 @@ class HistoryController extends Controller
     }
 
     public function graphicDaysHomework($id) {
-        $day_start = date("Y-m-d h:m:s");
         $day = date("Y-m-d h:m:s", strtotime(date("Y-m-d h:m:s")."+ 1 days"));
         $day1 = date("Y-m-d h:m:s", strtotime(date("Y-m-d h:m:s")."- 14 days"));
 

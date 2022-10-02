@@ -34,9 +34,25 @@
                         
                         <div v-if="!crono_on">
                             <div class="modal-body">
+                                <div v-if="recent_homeworks != []">
+
+                                    <p class="col_form_label_new" >Actividades recientes: </p>
+
+                                    <div class="container_fluid_new" style="margin-bottom: 2rem;">
+
+                                        <div v-for="recentHomework in getRecent">
+                                            <button class="btn_new recent_button" @click="this.recentCrono(recentHomework.project_id, recentHomework.homework_id)">
+                                                {{recentHomework.project_name}} - {{recentHomework.homework_name}}
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
                                 <form>
                                     <div class="mb-3">
-                                        <label class="col_form_label_new" for="input_history">Elige el projecto: </label>
+                                        <label class="col_form_label_new" for="input_history">Elige el proyecto: </label>
 
                                         <select class="form-select" style="background-color: rgba(250, 250, 250, 0.59); border-radius: 12px; font-family: 'Indie Flower', cursive; font-size: 19px;" 
                                         id="input_history" v-on:change="this.searchHomeworks()" v-model="project_id">
@@ -47,7 +63,7 @@
                                         </select>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="input_history_homework" class="col_form_label_new">Elige la tarjeta: </label>
+                                        <label for="input_history_homework" class="col_form_label_new">Elige la tarea: </label>
                                         <select class="form-select" style="background-color: rgba(250, 250, 250, 0.59); border-radius: 12px; font-family: 'Indie Flower', cursive; font-size: 19px;" 
                                         id="input_history_homework" v-model="homework_id">
                                             <option selected value="F">Selecciona alguno</option>
@@ -227,7 +243,8 @@ export default {
                         this.pending_crono = (respo.data[0])? respo.data[0].created_at : respo.data.created_at;
                         this.writeCrono();
                     }
-                }) 
+                });
+
             },
             (error) => {
                 console.log(error.response.data);
@@ -249,7 +266,8 @@ export default {
             productivity: null,
             history_id: 0,
             seg: 0,
-            pending_crono: ""
+            pending_crono: "",
+            recent_homeworks: []
         }
     },
 
@@ -275,6 +293,16 @@ export default {
             (error) => {
                 console.log(error.response.data);
             })
+
+            Axios.get(`/recent_homework/${this.getToken.id}`)
+                .then( res => {
+                    if (res.data.length != 0) {
+                        this.recent_homeworks = res.data;
+                    }
+                },
+            (error) => {
+                console.log(error.response.data);
+            })
         },
 
         searchHomeworks() {
@@ -287,6 +315,12 @@ export default {
                         console.log(error.response.data);
                     })
         }, 
+
+        recentCrono(project, homework) {
+            this.project_id = project;
+            this.homework_id = homework;
+            this.startCrono();
+        },
 
         startCrono() {
             if (!this.crono_on) {
@@ -459,6 +493,10 @@ export default {
 
         getProject() {
             return this.projects;
+        },
+
+        getRecent() {
+            return this.recent_homeworks;
         },
 
         getHomework() {

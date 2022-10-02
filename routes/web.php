@@ -72,5 +72,6 @@ Route::post('/update_history', [HistoryController::class, 'update']);
 Route::get('/all_history/{id}', [HistoryController::class, 'index']);
 Route::get('/graphic_day_project/{id}', [HistoryController::class, 'graphicDaysProject']);
 Route::get('/graphic_day_homework/{id}', [HistoryController::class, 'graphicDaysHomework']);
+Route::get('/recent_homework/{id}', [HistoryController::class, 'recentHomework']);
 Route::get('/crono_on/{id}', [HistoryController::class, 'show']);
 Route::post('/delete_hy', [HistoryController::class, 'destroy']);

@@ -31,7 +31,7 @@
                     <td style="border-radius: 10px 0 0 10px;"><input class="form-check-input all_items" type="checkbox" style="margin-left: 0.7rem; border-bottom-width: 0.25px;" v-bind:id="id.id" ></td>
                     <td>{{this.formatTime(id.created_at)}}</td>
                     <td>{{this.secondsToString(id.time)}}</td>
-                    <td>{{id.proyect_name}}</td>
+                    <td>{{id.project_name}}</td>
                     <td style="border-radius: 0 10px 10px 0;">{{id.homework_name}}</td>
                 </tr>
             </tbody>

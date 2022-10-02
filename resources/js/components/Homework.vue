@@ -87,7 +87,7 @@ export default {
          mostrar() {
             Axios.get(`/delete_h/${this.getId}`)
                 .then(() => {
-                    this.$emit("loadHomework"); // emitimos un evento que recoge el componente padre "MyProyects
+                    this.$emit("loadHomework"); // emitimos un evento que recoge el componente padre "Myprojects
                 },
                 (error) => {
                     console.error(error.response.data);
@@ -95,7 +95,7 @@ export default {
 
             
             
-            // window.setTimeout(this.deleteProyect, 1500);
+            // window.setTimeout(this.deleteproject, 1500);
         },
 
         secondsToString(seconds) {

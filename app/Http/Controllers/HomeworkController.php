@@ -16,7 +16,7 @@ class HomeworkController extends Controller
     public function index($id)
     {
         //
-        $homeworks = Homework::where('proyect_id', '=', $id)->get()->toArray();
+        $homeworks = Homework::where('project_id', '=', $id)->get()->toArray();
         return response()->json($homeworks);
     }
 
@@ -31,7 +31,7 @@ class HomeworkController extends Controller
         $request->validate([
             'name'=>'required',
             'user_id'=>'required',
-            'proyect_id'=>'required', 
+            'project_id'=>'required', 
             'count'=>'required',
         ]);
 
@@ -39,7 +39,7 @@ class HomeworkController extends Controller
         $homework->name = $request->get('name');
         $homework->color = $request->get('color');
         $homework->user_id = $request->get('user_id');
-        $homework->proyect_id = $request->get('proyect_id');
+        $homework->project_id = $request->get('project_id');
         $homework->time_improduct = $request->get('time_improduct');
         $homework->time_normal = $request->get('time_normal');
         $homework->time_product = $request->get('time_product');

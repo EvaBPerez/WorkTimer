@@ -1,7 +1,7 @@
 <template>
 
     <div class="container">
-        <p class="my_title">Mis Tareas: {{proyect.name}}</p>
+        <p class="my_title">Mis Tareas: {{project.name}}</p>
 
         <div class="row">
             <div class="col">
@@ -90,7 +90,7 @@ export default {
 
         Axios.get(`/edit/${this.id}`)
             .then(res => {
-                this.proyect = (res.data[0])? res.data[0] : res.data;
+                this.project = (res.data[0])? res.data[0] : res.data;
             },
             (error) => {
                 console.log(error.response.data);
@@ -102,7 +102,7 @@ export default {
     data() {
         return {
             id_homeworks: [],
-            proyect: [],
+            project: [],
             show_modal: false,
             name: '',
             color: "#ffffff",
@@ -146,7 +146,7 @@ export default {
                 Axios.post('/add_homework', {name: this.name, 
                 color: this.color, 
                 user_id: this.getToken.id, 
-                proyect_id: this.id,
+                project_id: this.id,
                 count: 0,
                 time_improduct: 0,
                 time_normal: 0, 
@@ -167,7 +167,7 @@ export default {
         },
 
         loadHomework() {
-            Axios.get(`/all_homeworks/${this.proyect.id}`)
+            Axios.get(`/all_homeworks/${this.project.id}`)
                 .then((respo) => {
                     this.id_homeworks = respo.data;
               },

@@ -5,7 +5,7 @@
 </template>
 
 <script>
-    import template_login from './TemplateLoginSingup.vue';
+    import template_login from './TemplateLoginSignup.vue';
 
 export default {
     components: {template_login},

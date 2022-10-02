@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\History;
 use App\Models\Homework;
-use App\Models\Proyect;
+use App\Models\Project;
 
 class HistoryController extends Controller
 {
@@ -19,21 +19,21 @@ class HistoryController extends Controller
     {
         //
         $history = DB::table('history')
-            ->select('history.id', 'history.time', 'history.created_at', 'proyect.name as proyect_name', 'homework.name as homework_name')
+            ->select('history.id', 'history.time', 'history.created_at', 'project.name as project_name', 'homework.name as homework_name')
             ->where('history.user_id', '=', $id)
-            ->crossJoin('proyect', 'proyect.id', '=', 'history.proyect_id')
+            ->crossJoin('project', 'project.id', '=', 'history.project_id')
             ->crossJoin('homework', 'homework.id', '=', 'history.homework_id')
             ->orderBy('created_at', 'desc')->get();
         return response()->json($history);
     }
 
-    public function graphicDaysProyect($id) {
+    public function graphicDaysProject($id) {
         $day_start = date("Y-m-d h:m:s");
         $day = date("Y-m-d h:m:s", strtotime(date("Y-m-d h:m:s")."+ 1 days"));
         $day1 = date("Y-m-d h:m:s", strtotime(date("Y-m-d h:m:s")."- 14 days"));
 
         $history = DB::table('history')
-            ->where('history.proyect_id', '=', $id)
+            ->where('history.project_id', '=', $id)
             ->where('history.created_at', '<=', $day)
             ->where('history.created_at', '>=', $day1)
             ->orderBy('created_at', 'asc')->get();
@@ -63,7 +63,7 @@ class HistoryController extends Controller
         //
         $request->validate([
             'user_id'=>'required',
-            'proyect_id'=>'required',
+            'project_id'=>'required',
             'homework_id'=>'required', 
             'time'=> 'required',
             'productivity'=> ''
@@ -71,7 +71,7 @@ class HistoryController extends Controller
 
         $history = new History();
         $history->user_id = $request->get('user_id');
-        $history->proyect_id = $request->get('proyect_id');
+        $history->project_id = $request->get('project_id');
         $history->homework_id = $request->get('homework_id');
         $history->time = $request->get('time');
         $history->productivity = $request->get('productivity');
@@ -156,27 +156,27 @@ class HistoryController extends Controller
          for ($i = 0; $i < count($arrayOn); $i++) {
             $history = History::find($arrayOn[$i]);
             $homework = Homework::find($history->homework_id);
-            $proyect = Proyect::find($history->proyect_id);
+            $project = Project::find($history->project_id);
 
             $homework->total_time = $homework->total_time - $history->time;
-            $proyect->total_time = $proyect->total_time - $history->time;
+            $project->total_time = $project->total_time - $history->time;
             $homework->count = $homework->count - 1;
-            $proyect->count = $proyect->count - 1;
+            $project->count = $project->count - 1;
             if ($history->productivity == 1) { //es productivo
                 $homework->time_product = $homework->time_product - $history->time;
-                $proyect->time_product = $proyect->time_product - $history->time;
+                $project->time_product = $project->time_product - $history->time;
             } else if ($history->productivity == 3) { //es productivo
                 $homework->time_improduct = $homework->time_improduct - $history->time;
-                $proyect->time_improduct = $proyect->time_improduct - $history->time;
+                $project->time_improduct = $project->time_improduct - $history->time;
             }
 
             $homework->save();
-            $proyect->save();
+            $project->save();
 
             $history->delete();
 
-            $request->session()->put(['proyect' => $proyect]);
-            $request->session()->put(['homework' => $proyect]);
+            $request->session()->put(['project' => $project]);
+            $request->session()->put(['homework' => $project]);
         }
         
     }

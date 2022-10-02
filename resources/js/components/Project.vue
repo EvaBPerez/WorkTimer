@@ -1,8 +1,8 @@
 
 <template>
-<div id="proyect_animation">
+<div id="project_animation">
 
-    <div class="card_new" v-bind:id="id_proyect" 
+    <div class="card_new" v-bind:id="id_project" 
     
         v-bind:style="{ 'background-color': getColor }" aria-disabled="true">
         <img src="../../../public/images/broke.png" class="oculta" id="roto">
@@ -19,11 +19,11 @@
                     </a>
 
                     <ul class="dropdown-menu dropdown-menu-end" style="font-family: 'Indie Flower', cursive; font-size: 1.2rem; text-align: center;">
-                        <li><router-link :to="{name: 'edit_proyect', params: {ids: this.id}}" class="dropdown-item">
+                        <li><router-link :to="{name: 'edit_project', params: {ids: this.id}}" class="dropdown-item">
                             Editar
                         </router-link></li>
                         <li><hr class="dropdown-divider" style="margin-left: 1.5rem; margin-right: 1.5rem;"></li>
-                        <li @click="this.deleteProyect()"><router-link to="" class="dropdown-item" id="delete">Eliminar</router-link></li>
+                        <li @click="this.deleteProject()"><router-link to="" class="dropdown-item" id="delete">Eliminar</router-link></li>
                         <DeleteVue></DeleteVue>
                     </ul>
 
@@ -44,7 +44,7 @@
             </div>
             
             <br>
-            <router-link :to="{name: 'proyect_analitic', params: {id: this.proyect.id}}"
+            <router-link :to="{name: 'project_analitic', params: {id: this.project.id}}"
                 class="button_card">
                 <span style="text-decoration: none; color: black;">Ver más</span>
             </router-link>
@@ -61,31 +61,31 @@
 <script>
     import DeleteVue from './Delete.vue';
     import Axios from 'axios';
-    import Edit from './EditProyect.vue';
+    import Edit from './EditProject.vue';
 
 export default {
-    props: ["proyect"],    
+    props: ["project"],    
 
     components:{ Edit, DeleteVue},
 
     data() {
         return {
-            id: this.proyect.id,
-            name: this.proyect.name,
-            color: this.proyect.color,
-            value_color: this.proyect.color,
-            value_name: this.proyect.name,
+            id: this.project.id,
+            name: this.project.name,
+            color: this.project.color,
+            value_color: this.project.color,
+            value_name: this.project.name,
             show_modal: true,
             edi: false,
-            id_proyect: 'proyect' + this.proyect.id,
+            id_project: 'project' + this.project.id,
             time_aux: 0,
-            total_time: this.secondsToString(this.proyect.total_time),
-            percen: (this.proyect.time_product != 0)? Math.round(this.proyect.time_product * 100 / this.proyect.total_time) + " %" : "0 %"
+            total_time: this.secondsToString(this.project.total_time),
+            percen: (this.project.time_product != 0)? Math.round(this.project.time_product * 100 / this.project.total_time) + " %" : "0 %"
         }
     },
 
     watch:{
-        proyect(val){
+        project(val){
             this.id = val.id;
             this.name = val.name;
             this.color = val.color; 
@@ -114,10 +114,10 @@ export default {
     },
 
     methods: {
-        deleteProyect() {
+        deleteProject() {
             Axios.get(`/delete/${this.getId}`)
                 .then(() => {
-                    this.$emit("loadProyect"); // emitimos un evento que recoge el componente padre "MyProyects"
+                    this.$emit("loadProject"); // emitimos un evento que recoge el componente padre "Myprojects"
                 },
                 (error) => {
                     console.error(error.response.data);

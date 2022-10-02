@@ -8,7 +8,7 @@
 </template>
 
 <script>
-    import template_setting from './TemplateLoginSingup.vue'
+    import template_setting from './TemplateLoginSignup.vue'
 
 export default {
     components: {template_setting},

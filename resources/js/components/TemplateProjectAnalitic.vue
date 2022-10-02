@@ -40,9 +40,9 @@
 export default {
 
     beforeMount() {
-        this.reloadProyect();
+        this.reloadProject();
 
-        Axios.get(`/graphic_day_proyect/${this.proyect.id}`)
+        Axios.get(`/graphic_day_project/${this.project.id}`)
         .then(respo => {
             let aux = 0;
             for (let i = 0; i < respo.data.length; i++) {
@@ -97,18 +97,18 @@ export default {
 
     },
 
-    props: ['proyect'],
+    props: ['project'],
 
     data() {
         return {
             index: [
                 {title: 'Tiempo total',
                 time: '0 s',
-                help: 'Tiempo total dedicado al proyecto'},
+                help: 'Tiempo total dedicado al projecto'},
 
                 {title: 'Tiempo productivo',
                 time: '0 %',
-                help: 'Porcentaje del tiempo productivo dedicado al proyecto'},
+                help: 'Porcentaje del tiempo productivo dedicado al projecto'},
 
                 {title: 'Tiempo promedio',
                 time: '0 s',
@@ -116,7 +116,7 @@ export default {
 
                 {title: 'Tiempo improductivo',
                 time: '0 %',
-                help: 'Porcentaje del tiempo improductivo dedicado al proyecto'}
+                help: 'Porcentaje del tiempo improductivo dedicado al projecto'}
                 ],
 
             stock: [],
@@ -146,12 +146,12 @@ export default {
             
         },
 
-        reloadProyect() {
-            if (this.proyect.count != 0) {
-                this.index[0].time = this.secondsToString(this.proyect.total_time);
-                this.index[1].time = Math.round(this.proyect.time_product * 100 / this.proyect.total_time) + " %";
-                this.index[2].time = this.secondsToString(Math.round(this.proyect.total_time/ this.proyect.count));
-                this.index[3].time = Math.round(this.proyect.time_improduct * 100 / this.proyect.total_time) + " %";
+        reloadProject() {
+            if (this.project.count != 0) {
+                this.index[0].time = this.secondsToString(this.project.total_time);
+                this.index[1].time = Math.round(this.project.time_product * 100 / this.project.total_time) + " %";
+                this.index[2].time = this.secondsToString(Math.round(this.project.total_time/ this.project.count));
+                this.index[3].time = Math.round(this.project.time_improduct * 100 / this.project.total_time) + " %";
             }
         }, 
 

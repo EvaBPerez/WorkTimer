@@ -5,7 +5,7 @@
 
         <div class="row">
             <div class="col">
-                <button class="btn_new add_button" data-bs-toggle="modal" data-bs-target="#add_proyect">
+                <button class="btn_new add_button" data-bs-toggle="modal" data-bs-target="#add_project">
                     Añadir proyecto
                 </button>
             </div>
@@ -13,13 +13,13 @@
             <div class="col-3">
                 <div class="form-inline my-2 my-lg-0 input-icons">  
                     <i class="bi bi-search" style="color: grey;"></i>
-                    <input style="border-radius: 10px;" class="form-control mr-sm-2 input-field" id="search_proyect" type="text" v-model="search_proyect" placeholder="Buscar..." aria-label="Search">
+                    <input style="border-radius: 10px;" class="form-control mr-sm-2 input-field" id="search_project" type="text" v-model="search_project" placeholder="Buscar..." aria-label="Search">
                 </div> 
             </div>
         </div>
     </div>
 
-    <div v-show="show_modal" class="modal fade" style="background-color: rgb(236, 243, 244, 0.562);" id="add_proyect" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div v-show="show_modal" class="modal fade" style="background-color: rgb(236, 243, 244, 0.562);" id="add_project" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" style="position: relative;">
             <div class="modal_content_new">
                 <div class="modal_header_new">
@@ -45,7 +45,7 @@
                     </div>
 
                     <div class="col-6">
-                        <button @click="this.addProyect()" type="button" class="btn_new button_acept">Añadir</button>
+                        <button @click="this.addProject()" type="button" class="btn_new button_acept">Añadir</button>
                     </div>
                 </div>
                 
@@ -55,9 +55,9 @@
     </div>
 
     <div class="container_fluid_new" v-if="search!='not'">
-        <div v-for="id in search" :proyect="id">
-            <proyect @loadProyect="loadProyect" :proyect.sync="id"></proyect>  
-            <!-- el @loadProyect="loadProyect" es para recibir el evento del componete hijo "proyect"-->
+        <div v-for="id in search" :project="id">
+            <project @loadproject="loadProject" :project.sync="id"></project>  
+            <!-- el @loadproject="loadproject" es para recibir el evento del componete hijo "project"-->
         </div>
     </div>
 
@@ -66,17 +66,17 @@
 
 <script>
     import Axios from 'axios'
-    import proyect from './Proyect.vue'
+    import project from './project.vue'
 
 export default {
-    components: {proyect},
+    components: {project},
 
     beforeCreate() {
         Axios.get('/token')
             .then((res) => {
                 this.user_token = res.data;
 
-                Axios.get(`/all_proyects/${(res.data[0])? 
+                Axios.get(`/all_projects/${(res.data[0])? 
                         res.data[0].id: res.data.id}`)
                     .then((respo) => {
                         this.ids = respo.data;
@@ -98,7 +98,7 @@ export default {
             user_token: [],
             aux: 0,
             show_modal: false,
-            search_proyect: ''
+            search_project: ''
         }
     }, 
 
@@ -112,16 +112,16 @@ export default {
         },
 
         search(){
-            if(this.search_proyect){
-                var proyect_search = [];
+            if(this.search_project){
+                var project_search = [];
 
                 for (let i = 0; i < this.getIds.length; i++) {
-                    if(this.getIds[i].name == this.search_proyect || this.getIds[i].name.includes(this.search_proyect) ){
-                        proyect_search.push(this.getIds[i]);
+                    if(this.getIds[i].name == this.search_project || this.getIds[i].name.includes(this.search_project) ){
+                        project_search.push(this.getIds[i]);
                     }                     
                 }
                 
-                return (proyect_search.length > 0)? proyect_search : 'not';
+                return (project_search.length > 0)? project_search : 'not';
 
             }else{
                 return this.getIds;
@@ -130,11 +130,11 @@ export default {
     }, 
 
     methods: {
-        addProyect() {
+        addProject() {
             if (!this.name) {
                 alert('No puedes dejar el nombre en blanco');
             } else {
-                Axios.post('/add_proyect', {name: this.name, 
+                Axios.post('/add_project', {name: this.name, 
                 color: this.color, 
                 user_id: this.getToken.id, 
                 count: 0,
@@ -146,7 +146,7 @@ export default {
                         alert('se he guardado correctamente');
                         this.name = '';
                         this.color = "#ffffff";
-                        this.loadProyect();
+                        this.loadProject();
                         document.getElementById('close').click();
                     },
                     (error) => {
@@ -156,8 +156,8 @@ export default {
             
         },
 
-        loadProyect() {
-            Axios.get(`/all_proyects/${this.getToken.id}`)
+        loadProject() {
+            Axios.get(`/all_projects/${this.getToken.id}`)
                 .then((respo) => {
                     this.ids = respo.data;
               },

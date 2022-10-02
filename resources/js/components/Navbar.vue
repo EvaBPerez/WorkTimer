@@ -3,7 +3,7 @@
         <div class="row_new">
             <div class="col-3">
                 <div v-if="user_token.length != 0">
-                    <button @click="this.searchProyects()" id="time" class="btn_new timer_button" data-bs-toggle="modal" data-bs-target="#crono">
+                    <button @click="this.searchProjects()" id="time" class="btn_new timer_button" data-bs-toggle="modal" data-bs-target="#crono">
                         <div v-if="crono_on">
                             <p class="timer" v-html="crono_time"></p>
                         </div>
@@ -36,13 +36,13 @@
                             <div class="modal-body">
                                 <form>
                                     <div class="mb-3">
-                                        <label class="col_form_label_new" for="input_history">Elige el proyecto: </label>
+                                        <label class="col_form_label_new" for="input_history">Elige el projecto: </label>
 
                                         <select class="form-select" style="background-color: rgba(250, 250, 250, 0.59); border-radius: 12px; font-family: 'Indie Flower', cursive; font-size: 19px;" 
-                                        id="input_history" v-on:change="this.searchHomeworks()" v-model="proyect_id">
+                                        id="input_history" v-on:change="this.searchHomeworks()" v-model="project_id">
                                             <option selected value="F">Selecciona alguno</option>
-                                            <option v-for="proyect in getProyect"
-                                                v-bind:value="proyect.id">{{proyect.name}}
+                                            <option v-for="project in getProject"
+                                                v-bind:value="project.id">{{project.name}}
                                             </option>
                                         </select>
                                     </div>
@@ -134,7 +134,7 @@
 
             <div class="col-6">
                 <div class="title position-absolute top-40 start-50 translate-middle">
-                    <router-link to="/my_proyects">
+                    <router-link to="/my_projects">
                         <h1 id="worktimer" >WorkTimer</h1>
                     </router-link>
                 </div>
@@ -156,7 +156,7 @@
 
                              <ul class="dropdown-menu" style="font-size: 1.2rem;">
                                 <li><router-link to="/setting" class="dropdown-item">Perfil</router-link></li>
-                                <li><router-link to="/my_proyects" class="dropdown-item">Mis proyectos</router-link></li>
+                                <li><router-link to="/my_projects" class="dropdown-item">Mis projectos</router-link></li>
                                 <li><router-link to="/users_list" class="dropdown-item">Usuarios</router-link></li>
                                 <li><router-link to="/history" class="dropdown-item">Historial</router-link></li>
                                 <li><router-link to="/" class="dropdown-item">Turorial</router-link></li>
@@ -173,7 +173,7 @@
 
                             <ul class="dropdown-menu" style="font-size: 1.2rem;">
                                 <li><router-link to="/setting" class="dropdown-item">Perfil</router-link></li>
-                                <li><router-link to="/my_proyects" class="dropdown-item">Mis proyectos</router-link></li>
+                                <li><router-link to="/my_projects" class="dropdown-item">Mis projectos</router-link></li>
                                 <li><router-link to="/history" class="dropdown-item">Historial</router-link></li>
                                 <li><router-link to="/" class="dropdown-item">Tutorial</router-link></li>
                                 <li><hr class="dropdown-divider"></li>
@@ -222,7 +222,7 @@ export default {
                     if (respo.data.length != 0) {
                         this.crono_on = true;
                         this.history_id = (respo.data[0])? respo.data[0].id : respo.data.id;
-                        this.proyect_id = (respo.data[0])? respo.data[0].proyect_id : respo.data.proyect_id;
+                        this.project_id = (respo.data[0])? respo.data[0].project_id : respo.data.project_id;
                         this.homework_id = (respo.data[0])? respo.data[0].homework_id : respo.data.homework_id;
                         this.pending_crono = (respo.data[0])? respo.data[0].created_at : respo.data.created_at;
                         this.writeCrono();
@@ -238,10 +238,10 @@ export default {
         return {
             user_token: [],
             user_photo: img_dir.url + img_dir.avatar_default,
-            proyects: [], 
+            projects: [], 
             homeworks: [], 
             error: '',
-            proyect_id: 'F',
+            project_id: 'F',
             homework_id: 'F',
             crono_on: false, 
             aceptar_crono: false,
@@ -260,17 +260,17 @@ export default {
                 then(() => {
                     alert('Se ha cerrado sesión correctamente');
                     vm.user_token=[]; // Ya no existe el usuario
-                    window.location.href='/my_proyects'; 
+                    window.location.href='/my_projects'; 
             },
             (error) => {
                 console.log(error.response.data);
             });
         }, 
 
-        searchProyects() {
-            Axios.get(`/all_proyects/${this.getToken.id}`)
+        searchProjects() {
+            Axios.get(`/all_projects/${this.getToken.id}`)
             .then((respo) => {
-                this.proyects = respo.data;
+                this.projects = respo.data;
             },
             (error) => {
                 console.log(error.response.data);
@@ -278,8 +278,8 @@ export default {
         },
 
         searchHomeworks() {
-            let proyect = document.getElementById('input_history');
-            Axios.get(`/all_homeworks/${proyect.value}`)
+            let project = document.getElementById('input_history');
+            Axios.get(`/all_homeworks/${project.value}`)
                     .then((respo) => {
                         this.homeworks = respo.data;
                     },
@@ -292,11 +292,11 @@ export default {
             if (!this.crono_on) {
                 this.error = '';
 
-                if (this.proyect_id != 'F' && this.homework_id != 'F') {
+                if (this.project_id != 'F' && this.homework_id != 'F') {
 
                     Axios.post('/add_history', 
                         {user_id: this.getToken.id,
-                        proyect_id: this.proyect_id,
+                        project_id: this.project_id,
                         homework_id: this.homework_id, 
                         time: 0,
                         productivity: null})
@@ -305,7 +305,6 @@ export default {
                             this.crono_on = true;
                             let crono_actual = (res.data[0])? res.data[0].created_at : res.data.created_at;
                             this.pending_crono = crono_actual.replaceAll('T', ' ').substring(0, 19);
-                            console.log(this.pending_crono);
                             document.getElementById('close_crono').click();
                             this.initCrono();
                         },
@@ -314,7 +313,7 @@ export default {
                         })
                         
                 } else {
-                    this.error = 'Debes seleccionar un proyecto y una tarea.'
+                    this.error = 'Debes seleccionar un projecto y una tarea.'
                 }
 
             } else {
@@ -326,7 +325,7 @@ export default {
 
         clearInfo() {
             if(!this.crono_on) {
-                this.proyect_id = 'F';
+                this.project_id = 'F';
                 this.homework_id = 'F';
             }
             this.error = '';
@@ -390,11 +389,11 @@ export default {
                         console.log(error.response.data);
                     });
 
-                //Actualizamos los datos del proyecto
-                Axios.get(`/edit/${this.proyect_id}`)
+                //Actualizamos los datos del projecto
+                Axios.get(`/edit/${this.project_id}`)
                     .then((res) => {
-                        Axios.post('/update_proyect', {
-                            id: this.proyect_id, 
+                        Axios.post('/update_project', {
+                            id: this.project_id, 
                             name: (res.data[0])? res.data[0].name : res.data.name,
                             color: (res.data[0])? res.data[0].color : res.data.color, 
                             time_product: (this.productivity == 1)? ((res.data[0])? res.data[0].time_product + this.seg : res.data.time_product + this.seg) 
@@ -405,7 +404,7 @@ export default {
                             total_time: (res.data[0])? res.data[0].total_time + this.seg : res.data.total_time + this.seg,
                         }).then(() => {
                             document.getElementById('close_crono').click();
-                            this.proyect_id = 'F';
+                            this.project_id = 'F';
                             this.homework_id = 'F';
                             //hacemos que se actualicen las estadísticas
                             
@@ -433,7 +432,7 @@ export default {
                             total_time: (res.data[0])? res.data[0].total_time + this.seg : res.data.total_time + this.seg,
                         }).then(() => {
                             document.getElementById('close_crono').click();
-                            this.proyect_id = 'F';
+                            this.project_id = 'F';
                             this.homework_id = 'F';
                             
                             
@@ -458,8 +457,8 @@ export default {
             return (this.user_token[0])? this.user_token[0]: this.user_token;
         },
 
-        getProyect() {
-            return this.proyects;
+        getProject() {
+            return this.projects;
         },
 
         getHomework() {

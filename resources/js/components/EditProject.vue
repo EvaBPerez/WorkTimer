@@ -5,7 +5,7 @@
 </template>
 
 <script>
-    import template_edit from './TemplateLoginSingup.vue'
+    import template_edit from './TemplateLoginSignup.vue'
 
 export default {
     components: {template_edit},
@@ -16,7 +16,7 @@ export default {
         return {
             template_edit: {
                 title: 'Editar proyecto',
-                proyect_name: 'Nombre del proyecto: ',
+                project_name: 'Nombre del proyecto: ',
                 color_name: 'Color de la tarjeta: ',
                 id: this.ids
             }

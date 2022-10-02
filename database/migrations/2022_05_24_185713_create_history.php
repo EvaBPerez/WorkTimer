@@ -18,7 +18,7 @@ return new class extends Migration
             $table->integer('time');
             $table->enum('productivity', ['1', '2', '3'])->nullable();
             $table->foreignId('user_id')->references('id')->on('user')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreignId('proyect_id')->references('id')->on('proyect')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('project_id')->references('id')->on('project')->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('homework_id')->references('id')->on('homework')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });

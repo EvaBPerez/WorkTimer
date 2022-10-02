@@ -1,18 +1,18 @@
 <template>
     
-    <template_singup :template_object="template_singup"></template_singup>
+    <template_signup :template_object="template_signup"></template_signup>
 
 </template>
 
 <script>
-    import template_singup from './TemplateLoginSingup.vue'
+    import template_signup from './TemplateLoginSignup.vue'
 
 export default {
-    components: {template_singup},
+    components: {template_signup},
 
     data() {
         return {
-            template_singup: {
+            template_signup: {
                 title: 'Registrarse',
                 user_name: 'Nombre de usuario:',
                 input_email: 'Email:',

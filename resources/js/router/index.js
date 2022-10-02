@@ -2,8 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router';
 const router = [
 
     {
-        path: '/my_proyects',
-        component: require('../components/MyProyects.vue').default
+        path: '/my_projects',
+        component: require('../components/MyProjects.vue').default
     },
 
     {
@@ -29,10 +29,10 @@ const router = [
     },
 
     {
-        path: '/proyect_analitic/:id',
-        name: 'proyect_analitic',
+        path: '/project_analitic/:id',
+        name: 'project_analitic',
         props: true,
-        component: require('../components/ProyectAnalitic.vue').default
+        component: require('../components/ProjectAnalitic.vue').default
     },
 
     {
@@ -53,8 +53,8 @@ const router = [
     },
 
     {
-        path: '/singup',
-        component: require('../components/Singup.vue').default
+        path: '/signup',
+        component: require('../components/Signup.vue').default
     },
 
     {
@@ -73,14 +73,14 @@ const router = [
         path: '/template_object/:template_object',
         name: 'template_object',
         props: true,
-        component: require('../components/TemplateLoginSingup.vue').default
+        component: require('../components/TemplateLoginSignup.vue').default
     },
 
     {
-        path: '/edit_proyect/:ids',
-        name: 'edit_proyect',
+        path: '/edit_project/:ids',
+        name: 'edit_project',
         props: true,
-        component: require('../components/EditProyect.vue').default
+        component: require('../components/EditProject.vue').default
     },
 
     {

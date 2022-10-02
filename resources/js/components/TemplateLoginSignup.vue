@@ -26,9 +26,9 @@
                         
                     </div>
 
-                    <div v-if="proyect_name != null" class="mb-3">
-                        <label for="inputProyect" class="col_form_label_new">{{proyect_name}} </label>
-                        <input type="text" class="form_control_new" v-model="p_name" id="inputProyect" placeholder="Escribir aquí..." required pattern="\d+">
+                    <div v-if="project_name != null" class="mb-3">
+                        <label for="inputProject" class="col_form_label_new">{{project_name}} </label>
+                        <input type="text" class="form_control_new" v-model="p_name" id="inputProject" placeholder="Escribir aquí..." required pattern="\d+">
                     </div>
 
                     <div v-if="input_email != null" class="mb-3">
@@ -77,7 +77,7 @@
                     </div>
 
                     <div v-else>
-                        <router-link to="/my_proyects" type="button" class="btn_new button_close" style="margin-top: 2rem; color: white;">
+                        <router-link to="/my_projects" type="button" class="btn_new button_close" style="margin-top: 2rem; color: white;">
                         Cancelar</router-link>
                     </div>
                     
@@ -92,7 +92,7 @@
         </div>
 
         <div v-if="title == 'Iniciar sesión'" class="if_register">
-            <p>{{first_subtext}} <router-link to="/singup" style="color: red; text-decoration: underline red;">{{second_subtext}}</router-link></p>
+            <p>{{first_subtext}} <router-link to="/signup" style="color: red; text-decoration: underline red;">{{second_subtext}}</router-link></p>
         </div>
 
         <div v-else-if="title == 'Registrarse'" class="if_register">
@@ -161,7 +161,7 @@ export default {
         } else if (this.template_object.title == 'Editar proyecto') {
             Axios.get(`/edit/${this.template_object.id}`)
             .then(res => {
-                this.proyect_info = (res.data[0])? res.data[0] : res.data;
+                this.project_info = (res.data[0])? res.data[0] : res.data;
                 this.p_name = (res.data[0])? res.data[0].name : res.data.name;
                 this.color = (res.data[0])? res.data[0].color : res.data.color;
             },
@@ -208,7 +208,7 @@ export default {
             first_subtext : (this.template_object.first_subtext)? this.template_object.first_subtext : null,
             second_subtext : (this.template_object.second_subtext)? this.template_object.second_subtext : null,
             margin_bottom : (this.template_object.margin_bottom)? this.template_object.margin_bottom : null,
-            proyect_name: (this.template_object.proyect_name)? this.template_object.proyect_name : null,
+            project_name: (this.template_object.project_name)? this.template_object.project_name : null,
             color_name: (this.template_object.color_name)? this.template_object.color_name : null,
             color: '',
             p_name: '',
@@ -222,7 +222,7 @@ export default {
             error: '',
             photo: '',
             user_token: [],
-            proyect_info: [],
+            project_info: [],
             homework_info: []
         }
     },
@@ -243,7 +243,7 @@ export default {
 
     methods: {
         close() {
-            window.location.href='/homeworks/' + this.homework_info.proyect_id;
+            window.location.href='/homeworks/' + this.homework_info.project_id;
         },
 
         acept() {
@@ -254,7 +254,7 @@ export default {
                     this.error='';
                     Axios.post('/login', {email: this.email, password: this.password}).then((res) => {
                         if(res.data==='ok') {
-                            window.location.href='/my_proyects';
+                            window.location.href='/my_projects';
                         }else{
                             this.error="Error: Usuario y/o contraseña no coincide";
                         }
@@ -275,7 +275,7 @@ export default {
                             email: this.email, 
                             password: this.password,
                             type: this.rol}).then(() => {
-                                window.location.href='/my_proyects';
+                                window.location.href='/my_projects';
 
 
                             }, function (error) {
@@ -338,7 +338,7 @@ export default {
                         type: this.getToken.type,
                         photo: this.photo}).then(() => {
                             alert('Los datos se han guardado correctamente.')
-                            window.location.href='/my_proyects';
+                            window.location.href='/my_projects';
 
                         }, function (error) {
                             this.error="Error: Falta algún dato o están erróneos";
@@ -373,16 +373,16 @@ export default {
                         break;
                     }
                     vm = this;
-                    Axios.post('/update_proyect', {
+                    Axios.post('/update_project', {
                         id: this.id,
                         name: this.p_name,
                         color: this.color,
-                        time_improduct: (this.proyect_info[0])? this.proyect_info[0].time_improduct : this.proyect_info.time_improduct,
-                        time_product: (this.proyect_info[0])? this.proyect_info[0].time_product : this.proyect_info.time_product,
-                        count: (this.proyect_info[0])? this.proyect_info[0].count : this.proyect_info.count, 
-                        total_time: (this.proyect_info[0])? this.proyect_info[0].total_time : this.proyect_info.total_time
+                        time_improduct: (this.project_info[0])? this.project_info[0].time_improduct : this.project_info.time_improduct,
+                        time_product: (this.project_info[0])? this.project_info[0].time_product : this.project_info.time_product,
+                        count: (this.project_info[0])? this.project_info[0].count : this.project_info.count, 
+                        total_time: (this.project_info[0])? this.project_info[0].total_time : this.project_info.total_time
                         }).then(() => {
-                            window.location.href='/my_proyects';
+                            window.location.href='/my_projects';
 
                         }, function (error) {
                             vm.error="Error: Falta algún dato o están erróneos";
@@ -405,7 +405,7 @@ export default {
                         count: (this.homework_info[0])? this.homework_info[0].count : this.homework_info.count, 
                         total_time: (this.homework_info[0])? this.homework_info[0].total_time : this.homework_info.total_time
                         }).then(() => {
-                            window.location.href='/homeworks/' + this.homework_info.proyect_id;
+                            window.location.href='/homeworks/' + this.homework_info.project_id;
 
                         }, function (error) {
                             vm.error="Error: Falta algún dato o están erróneos";

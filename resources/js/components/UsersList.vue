@@ -3,12 +3,9 @@
         <div class="container">
 
             <div>
-                <p class="my_title">Listado de usuarios</p>
                 <div class="row">
                     <div class="col">
-                        <router-link to="/create_user" class="btn_new add_button" style="color: black;">
-                            Añadir usuario
-                        </router-link>
+                        <p class="my_title">Listado de usuarios</p>
                     </div>
 
                     <div class="col-3">
@@ -18,6 +15,10 @@
                         </div> 
                     </div>
                 </div>
+
+                <router-link to="/create_user" class="btn_new add_button" style="color: black;">
+                    Añadir usuario
+                </router-link>
                 
 
                 
@@ -34,7 +35,15 @@
                     <tbody v-if="search!='not'">
                         <tr v-for="id in search">
                         <td style="border-radius: 10px 0 0 10px;"><input class="form-check-input all_items" type="checkbox" style="margin-left: 0.7rem; border-bottom-width: 0.25px;" v-bind:id="id.id" ></td>
-                        <td>{{id.name}}</td>
+                        <td>
+                            <div v-if="id.type == 1">
+                                <i class="bi bi-person-fill"></i> {{id.name}}
+                            </div>
+
+                            <div v-else>
+                                {{id.name}}
+                            </div>
+                            </td>
                         <td>{{id.email}}</td>
                         <td style="border-radius: 0 10px 10px 0;"><router-link :to="{name: 'edit_user_admin', params: {id: id.id}}"><i class="bi bi-pencil-square"></i></router-link></td>
                     </tr>
@@ -81,7 +90,11 @@
     </div>
 
     <div v-else>
-        alsjdkfo
+        <h4 class="privilege_error">
+            <samp><i class="bi bi-exclamation-triangle" style="color: #ff0000;"></i></samp>
+            Parece ser que no tiene los privilegios necesarios para acceder.
+            <samp><i class="bi bi-exclamation-triangle" style="color: #ff0000;"></i></samp>
+        </h4>
     </div>
 
 </template>

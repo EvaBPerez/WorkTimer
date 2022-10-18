@@ -41,7 +41,6 @@ class HomeworkController extends Controller
         $homework->user_id = $request->get('user_id');
         $homework->project_id = $request->get('project_id');
         $homework->time_improduct = $request->get('time_improduct');
-        $homework->time_normal = $request->get('time_normal');
         $homework->time_product = $request->get('time_product');
         $homework->count = $request->get('count');
         $homework->total_time = $request->get('total_time');

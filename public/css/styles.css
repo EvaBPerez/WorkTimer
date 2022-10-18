@@ -1,6 +1,6 @@
 #myHeader {
     width: 100%;
-    height: auto;
+    height: 3.7rem;
     background: #a6e3e4;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 0px 0px 10px 10px;
@@ -134,7 +134,7 @@ body{
     background-color: #ecf3f4;
     position: relative;
     padding-bottom: 9rem;
-    padding-top: 2rem;
+    padding-top: 3rem;
     min-height: 100vh;
     height: auto;
 }
@@ -266,17 +266,16 @@ info_analitic {
 }
 
 .button_login, .button_avatar {
-    padding-left: 5%;
-    padding-right: 5%;
-    padding-top: 1%;
-    padding-bottom: 1%;
     font-family: 'Indie Flower', cursive;
-    font-size: 1rem;
-
     float: right;
-    position: relative;
-    top: 50%;
-    text-decoration: none;
+
+    padding-left: 10%;
+    padding-right: 10%;
+    padding-bottom: 1%;
+    padding-top: 1%;
+    
+
+    transform: translate(-10%, 57%);
 }
 
 .button_avatar {
@@ -288,10 +287,7 @@ info_analitic {
     background: rgb(34, 108, 133, 89%);
     border-radius: 4px;
     box-sizing: border-box;
-    width: auto;
-    height: auto;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    transform: translate(-20%, 30%);
     color: white;
 }
 
@@ -510,3 +506,12 @@ info_analitic {
     margin-top: 5rem; 
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
+
+.privilege_error {
+    margin-top: 2rem;
+    text-align: center;
+    font-family: 'Lemonada', cursive;
+    font-weight: 1000;
+    color: #a74545;
+}
+

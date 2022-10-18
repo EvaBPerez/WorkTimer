@@ -34,7 +34,7 @@
                         
                         <div v-if="!crono_on">
                             <div class="modal-body">
-                                <div v-if="recent_homeworks != []">
+                                <div v-if="recent_homeworks.length != 0">
 
                                     <p class="col_form_label_new" >Actividades recientes: </p>
 
@@ -159,7 +159,9 @@
 
             <div class="col-3">
                 <div v-if="user_token.length == 0">
-                    <router-link to="/login" class="button_login" style="color: white;">Iniciar sesión</router-link>
+                    <div class="btn_ new button_login">
+                        <router-link to="/login"  style="color: white;">Iniciar sesión</router-link>
+                    </div>
                 </div>
 
                 <div v-else-if="user_token.length != 0" class="dropdown">
@@ -214,7 +216,10 @@
         
     </section>
 
-    <foot></foot>
+    <div style=" margin-top: 8rem;">
+        <foot></foot>
+    </div>
+    
     
     
   

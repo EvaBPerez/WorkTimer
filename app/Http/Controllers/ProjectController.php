@@ -40,7 +40,6 @@ class ProjectController extends Controller
         $project->color = $request->get('color');
         $project->user_id = $request->get('user_id');
         $project->time_improduct = $request->get('time_improduct');
-        $project->time_normal = $request->get('time_normal');
         $project->time_product = $request->get('time_product');
         $project->count = $request->get('count');
         $project->total_time = $request->get('total_time');

@@ -1,64 +1,76 @@
 <template>
-    <div class="container">
-        <p class="my_title">Mis proyectos</p>
-        
+    <div v-if="getToken.length != 0">
+        <template_setting :template_object="template_setting"></template_setting>
+        <div class="container">
 
-        <div class="row">
-            <div class="col">
-                <button class="btn_new add_button" data-bs-toggle="modal" data-bs-target="#add_project">
-                    Añadir proyecto
-                </button>
+            <div class="row">
+                <div class="col">
+                    <p class="my_title">Mis proyectos</p>
+                </div>
+
+                <div class="col-3">
+                    <div class="form-inline my-2 my-lg-0 input-icons">  
+                        <i class="bi bi-search" style="color: grey;"></i>
+                        <input style="border-radius: 10px;" class="form-control mr-sm-2 input-field" id="search_project" type="text" v-model="search_project" placeholder="Buscar..." aria-label="Search">
+                    </div> 
+                </div>
             </div>
 
-            <div class="col-3">
-                <div class="form-inline my-2 my-lg-0 input-icons">  
-                    <i class="bi bi-search" style="color: grey;"></i>
-                    <input style="border-radius: 10px;" class="form-control mr-sm-2 input-field" id="search_project" type="text" v-model="search_project" placeholder="Buscar..." aria-label="Search">
-                </div> 
-            </div>
+            <button class="btn_new add_button" data-bs-toggle="modal" data-bs-target="#add_project">
+                Añadir proyecto
+            </button>
         </div>
-    </div>
 
-    <div v-show="show_modal" class="modal fade" style="background-color: rgb(236, 243, 244, 0.562);" id="add_project" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" style="position: relative;">
-            <div class="modal_content_new">
-                <div class="modal_header_new">
-                    <h5 class="modal-title my_title" id="exampleModalLabel">Nuevo proyecto</h5>
-                </div>
-                
-                <div class="modal-body">
-                    <form>
-                        <div class="mb-3">
-                            <label for="recipient-name" class="col_form_label_new">Nombre del proyecto: </label>
-                            <input type="text" class="form_control_new" v-model="name" id="recipient-name" placeholder="Escribir aquí..." required pattern="\d+">
-                        </div>
-                        <div class="mb-3">
-                            <label for="color-card" class="col_form_label_new">Color de la tarjeta: </label>
-                            <input type="color" class="form-control form-control-color" v-model="color" id="exampleColorInput" value="#ffffff">
-                        </div>
-                    </form>
-                </div>
-
-                <div class="row_new">
-                    <div class="col-6">
-                        <button type="button" class="btn_new button_close" data-bs-dismiss="modal" id="close">Cancelar</button>
+        <div v-show="show_modal" class="modal fade" style="background-color: rgb(236, 243, 244, 0.562);" id="add_project" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" style="position: relative;">
+                <div class="modal_content_new">
+                    <div class="modal_header_new">
+                        <h5 class="modal-title my_title" id="exampleModalLabel">Nuevo proyecto</h5>
+                    </div>
+                    
+                    <div class="modal-body">
+                        <form>
+                            <div class="mb-3">
+                                <label for="recipient-name" class="col_form_label_new">Nombre del proyecto: </label>
+                                <input type="text" class="form_control_new" v-model="name" id="recipient-name" placeholder="Escribir aquí..." required pattern="\d+">
+                            </div>
+                            <div class="mb-3">
+                                <label for="color-card" class="col_form_label_new">Color de la tarjeta: </label>
+                                <input type="color" class="form-control form-control-color" v-model="color" id="exampleColorInput" value="#ffffff">
+                            </div>
+                        </form>
                     </div>
 
-                    <div class="col-6">
-                        <button @click="this.addProject()" type="button" class="btn_new button_acept">Añadir</button>
+                    <div class="row_new">
+                        <div class="col-6">
+                            <button type="button" class="btn_new button_close" data-bs-dismiss="modal" id="close">Cancelar</button>
+                        </div>
+
+                        <div class="col-6">
+                            <button @click="this.addProject()" type="button" class="btn_new button_acept">Añadir</button>
+                        </div>
                     </div>
+                    
                 </div>
-                
+            </div>
+
+        </div>
+
+        <div class="container_fluid_new" v-if="search!='not'">
+            <div v-for="id in search" :project="id">
+                <project @loadproject="loadProject" :project.sync="id"></project>  
+                <!-- el @loadproject="loadproject" es para recibir el evento del componete hijo "project"-->
             </div>
         </div>
 
     </div>
 
-    <div class="container_fluid_new" v-if="search!='not'">
-        <div v-for="id in search" :project="id">
-            <project @loadproject="loadProject" :project.sync="id"></project>  
-            <!-- el @loadproject="loadproject" es para recibir el evento del componete hijo "project"-->
-        </div>
+    <div v-else>
+        <h4 class="privilege_error">
+            <samp><i class="bi bi-exclamation-triangle" style="color: #ff0000;"></i></samp>
+            Parece ser que no tiene los privilegios necesarios para acceder.
+            <samp><i class="bi bi-exclamation-triangle" style="color: #ff0000;"></i></samp>
+        </h4>
     </div>
 
   
@@ -143,7 +155,6 @@ export default {
                 time_product: 0,
                 total_time: 0})
                     .then(() => {
-                        alert('se he guardado correctamente');
                         this.name = '';
                         this.color = "#ffffff";
                         this.loadProject();

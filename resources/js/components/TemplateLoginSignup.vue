@@ -91,48 +91,49 @@
             
         </div>
 
-        <div v-if="title == 'Iniciar sesión'" class="if_register">
-            <p>{{first_subtext}} <router-link to="/signup" style="color: red; text-decoration: underline red;">{{second_subtext}}</router-link></p>
-        </div>
-
-        <div v-else-if="title == 'Registrarse'" class="if_register">
-            <p>{{first_subtext}} <router-link to="/login" style="color: red; text-decoration: underline red;">{{second_subtext}}</router-link></p>
-        </div>
-
-        <div v-else-if="title == 'Mis datos'" class="if_register">
-            <p >{{first_subtext}} <span data-bs-toggle="modal" data-bs-target="#delete_user" style="color: red; text-decoration: underline red; cursor: pointer;">{{second_subtext}}</span></p>
-
-            <div v-show="show_modal" class="modal fade" style="background-color: rgb(236, 243, 244, 0.562);" id="delete_user" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" style="position: relative;">
-                    <div class="modal_content_new">
-                        <div class="modal_header_new">
-                            <h5 class="modal-title my_title" id="exampleModalLabel">Eliminar mi cuenta</h5>
-                        </div>
-                        
-                        <div class="modal-body">
-                            <form>
-                                <div class="mb-3">
-                                    <label for="color-card" class="col_form_label_new" style="color:red;">¿Estás seguro de que deseas eliminar la cuenta? No podrás recuperar los datos. </label>
-                                </div>
-                            </form>
-                        </div>
-
-                        <div class="row_new">
-                            <div class="col-6">
-                                <button type="button" class="btn_new button_close" data-bs-dismiss="modal" id="close">Cancelar</button>
-                            </div>
-
-                            <div class="col-6">
-                                <button @click="this.resetUser()" type="button" class="btn_new button_acept">Aceptar </button>
-                            </div>
-                        </div>
-                        
-                    </div>
-                </div>
-
+        <div style="margin-bottom: 3rem;">
+            <p style="color: #ecf3f4;">.</p>
+            <div v-if="title == 'Iniciar sesión'" class="if_register">
+                <p>{{first_subtext}} <router-link to="/signup" style="color: red; text-decoration: underline red;">{{second_subtext}}</router-link></p>
             </div>
 
+            <div v-else-if="title == 'Registrarse'" class="if_register">
+                <p>{{first_subtext}} <router-link to="/login" style="color: red; text-decoration: underline red;">{{second_subtext}}</router-link></p>
+            </div>
 
+            <div v-else-if="title == 'Mis datos'" class="if_register">
+                <p >{{first_subtext}} <span data-bs-toggle="modal" data-bs-target="#delete_user" style="color: red; text-decoration: underline red; cursor: pointer;">{{second_subtext}}</span></p>
+
+                <div v-show="show_modal" class="modal fade" style="background-color: rgb(236, 243, 244, 0.562);" id="delete_user" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" style="position: relative;">
+                        <div class="modal_content_new">
+                            <div class="modal_header_new">
+                                <h5 class="modal-title my_title" id="exampleModalLabel">Eliminar mi cuenta</h5>
+                            </div>
+                            
+                            <div class="modal-body">
+                                <form>
+                                    <div class="mb-3">
+                                        <label for="color-card" class="col_form_label_new" style="color:red;">¿Estás seguro de que deseas eliminar la cuenta? No podrás recuperar los datos. </label>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div class="row_new">
+                                <div class="col-6">
+                                    <button type="button" class="btn_new button_close" data-bs-dismiss="modal" id="close">Cancelar</button>
+                                </div>
+
+                                <div class="col-6">
+                                    <button @click="this.resetUser()" type="button" class="btn_new button_acept">Aceptar </button>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+
+                </div>
+        </div>
 
             
         </div>
@@ -274,8 +275,12 @@ export default {
                             name: this.name,
                             email: this.email, 
                             password: this.password,
-                            type: this.rol}).then(() => {
-                                window.location.href='/my_projects';
+                            type: this.rol}).then((res) => {
+                                if (res.data == 'not') {
+                                    this.error="Error: Ese correo ya está en uso";
+                                } else {
+                                    window.location.href='/my_projects';
+                                }
 
 
                             }, function (error) {
@@ -295,8 +300,12 @@ export default {
                             name: this.name,
                             email: this.email, 
                             password: this.password,
-                            type: this.rol}).then(() => {
-                                window.location.href='/users_list';
+                            type: this.rol}).then((res) => {
+                                if (res.data == 'not') {
+                                    this.error="Error: Ese correo ya está en uso";
+                                } else {
+                                    window.location.href='/users_list';
+                                }
 
 
                             }, function (error) {

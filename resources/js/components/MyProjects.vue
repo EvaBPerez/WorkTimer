@@ -58,8 +58,8 @@
 
         <div class="container_fluid_new" v-if="search!='not'">
             <div v-for="id in search" :project="id">
-                <project @loadproject="loadProject" :project.sync="id"></project>  
-                <!-- el @loadproject="loadproject" es para recibir el evento del componete hijo "project"-->
+                <project @loadProject="loadProject" :project.sync="id"></project>  
+                <!-- el @loadProject="loadProject" es para recibir el evento del componete hijo "project"-->
             </div>
         </div>
 

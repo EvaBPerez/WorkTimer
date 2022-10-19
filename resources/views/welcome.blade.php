@@ -6,7 +6,8 @@
 
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
         <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
-        <title>Document</title>
+        <link rel="shortcut icon" href="http://localhost:3000/images/logo.png" />
+        <title>WorkTimer</title>
 
         <!-- Google Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">

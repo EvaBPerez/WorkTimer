@@ -33,6 +33,7 @@ class UserController extends Controller
     public function createAdmin(Request $request)
     {
         //
+        $message = 'not';
         $request->validate([
             'name' => 'required',
             'email' => 'required',
@@ -42,23 +43,52 @@ class UserController extends Controller
         ]);
 
         $user = new User();
-        $user->name = $request->get('name');
-        $user->email = $request->get('email');
-        $user->password = $request->get('password');
-        $user->type = $request->get('type');
-        $user->photo = $request->get('photo');
-        $user->save();
+            $user->name = $request->get('name');
+            $user->email = $request->get('email');
+            $user->password = $request->get('password');
+            $user->type = $request->get('type');
+            $user->photo = $request->get('photo');
 
-        return $user;
+        $use = DB::table('user')
+            ->where('email', '=', $user['email']);
+
+        if($use->exists()) {
+            return response()->json($message);
+
+        } else {
+            $message = 'ok';
+            
+            $user->save();
+
+            return $user;
+        }
+
     }
 
     public function create(Request $request)
     {
         //
-        $user = $this->createAdmin($request);
+        $message = 'not';
+        $user = new User();
+            $user->name = $request->get('name');
+            $user->email = $request->get('email');
+            $user->password = $request->get('password');
+            $user->type = $request->get('type');
+            $user->photo = $request->get('photo');
 
-        $request->session()->put(['user' => $user]);
-        return $request->session()->all();
+        $use = DB::table('user')
+            ->where('email', '=', $user['email']);
+
+        if ($use->exists()) {
+            return response()->json($message);
+
+        } else {
+            $message = 'ok';
+            $user->save();
+            $request->session()->put(['user' => $user]);
+            return $request->session()->all();
+        }
+
     }
 
 

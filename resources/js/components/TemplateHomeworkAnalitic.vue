@@ -37,8 +37,9 @@ export default {
 
     props: ['homework'],
 
-     beforeUpdate() {
+     beforeMount() {
         this.reload();
+        
 
         Axios.get(`/graphic_day_homework/${this.homework.id}`)
         .then(respo => {

@@ -150,7 +150,7 @@
 
             <div class="col-6">
                 <div class="title position-absolute top-40 start-50 translate-middle">
-                    <router-link to="/my_projects">
+                    <router-link to="/">
                         <h1 id="worktimer" >WorkTimer</h1>
                     </router-link>
                 </div>
@@ -283,7 +283,7 @@ export default {
                 then(() => {
                     alert('Se ha cerrado sesión correctamente');
                     vm.user_token=[]; // Ya no existe el usuario
-                    window.location.href='/my_projects'; 
+                    window.location.href='/'; 
             },
             (error) => {
                 console.log(error.response.data);

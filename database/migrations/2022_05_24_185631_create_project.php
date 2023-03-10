@@ -13,14 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        //
-        Schema::create('user', function (Blueprint $table) {
+        Schema::create('project', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('email')->unique();;
-            $table->string('password');
-            $table->enum('type', ['1', '2']);
-            $table->text('photo')->nullable();
+            $table->string('color');
+            $table->foreignId('user_id')->references('id')->on('user')->onDelete('cascade')->onUpdate('cascade');
+            $table->integer('time_improduct');
+            $table->integer('time_product');
+            $table->integer('count');
+            $table->integer('total_time');
             $table->timestamps();
         });
     }
@@ -32,7 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        //
-        Schema::dropIfExists('user');
+        Schema::dropIfExists('project');
     }
 };

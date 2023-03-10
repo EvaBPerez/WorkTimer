@@ -3,15 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 
-class User extends Model
+class History extends Model
 {
     use HasFactory;
     use Notifiable;
     protected $fillable = [
-        'name', 'email', 'password', 'type', 'photo'
+        'time', 'productivity', 'user_id', 'project_id', 'homework_id'
     ];
-    protected $table = 'user';
+    protected $table = 'history';
 }
